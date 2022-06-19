@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.Lion {
+  height: 100px;
+  width: 100px;
+}
+
+.Nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex: 1;
+  width: auto;
+  min-height: 100px;
+}

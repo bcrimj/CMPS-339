@@ -23,7 +23,25 @@ app.post('/create', async(req, res) => {
     res.send(result.recordset)
 });
 
+app.post('/pcreate', async (req, res) => {
+    await dbOperation.createProduct(req.body);
+    const result = await dbOperation.getProduct();
+    res.send(result.recordset);
+})
 
+app.get('/product', async(req, res) => {
+    const result = await dbOperation.getProduct();
+    res.send(result.recordset)
+})
 
+app.get('/order', async(req, res) => {
+    const result = await dbOperation.getOrder();
+    res.send(result.recordset)
+})
+
+app.post('/ocreate', async (req, res) => {
+    const result = await dbOperation.createOrder(req.body);
+    res.send(result.recordset);
+})
 
 app.listen(API_PORT, () => console.log(`listening on port ${API_PORT}`));

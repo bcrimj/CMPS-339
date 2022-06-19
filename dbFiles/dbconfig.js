@@ -1,8 +1,8 @@
 const config = {
-    user: 'cmps339',
-    password: 'foo',
-    server: 'DESKTOP-QLDFMS7',
-    database: 'Coffee',
+    user: 'admin',
+    password: 'SuperPassword1!',
+    server: 'green-lion-coffee.culwq5nruxbi.us-east-2.rds.amazonaws.com',
+    database: 'Green-Lion-Coffee',
     options: {
         trustServerCertificate: true,
         
