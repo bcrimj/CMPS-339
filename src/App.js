@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import logo from './images/lion.png';
 
 import { Navbar, Nav, Container} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
 
 	const [data, setData] = useState(['hello']);
