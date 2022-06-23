@@ -4,12 +4,11 @@ const dbOperation = require('./dbFiles/dbOperation.js');
 const Customer = require('./dbFiles/customer.js');
 const API_PORT = process.env.PORT || 5000;
 const app = express();
-const path =require('path');
 
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors());
-app.use(express.static(path.join(_dirname+"public")));
+
 
 app.get('/api', async(req, res)  => {
     console.log('Called');
