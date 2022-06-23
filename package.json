@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "cd client && npm install && npm run build",
+    "heroku-postbuild": "cd coffee && npm install && npm run build",
     "dev": "run-p server start",
     "server": "nodemon server.js",
     "build": "react-scripts build",
