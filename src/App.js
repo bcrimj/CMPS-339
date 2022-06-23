@@ -85,7 +85,7 @@ function App() {
 				...customer
 			})
 		})
-		.then(getProduct());
+		.then(getData());
 	}
 
 	const createProduct = async () => {
