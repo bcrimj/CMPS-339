@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dbOperation = require('./dbFiles/dbOperation.js');
 const Customer = require('./dbFiles/customer.js');
-const API_PORT = process.env.PORT || 5000;
+const API_PORT = process.env.PORT || 80;
 const app = express();
 
 app.use(express.json());
