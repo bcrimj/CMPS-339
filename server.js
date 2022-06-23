@@ -47,6 +47,3 @@ app.post('/ocreate', async (req, res) => {
 
 app.listen(API_PORT, () => console.log(`listening on port ${API_PORT}`));
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../coffee/build')));
-}
