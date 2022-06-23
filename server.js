@@ -10,6 +10,7 @@ app.use(express.urlencoded());
 app.use(cors());
 
 
+
 app.get('/api', async(req, res)  => {
     console.log('Called');
     const result = await dbOperation.getCustomer();
@@ -45,3 +46,7 @@ app.post('/ocreate', async (req, res) => {
 })
 
 app.listen(API_PORT, () => console.log(`listening on port ${API_PORT}`));
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../coffee/build')));
+}
