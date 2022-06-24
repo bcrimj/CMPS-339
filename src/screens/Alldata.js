@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
-
+import { Table, InputGroup, FormControl, Button } from 'react-bootstrap';
+import '../screens/Alldata.css';
 function Alldata(){
     const [data, setData] = useState(['hello']);
 	const [pdata, setPdata] = useState(['']);
@@ -123,67 +123,169 @@ function Alldata(){
 
     return (
 		<div className="App">
-		
-		
-		
-			<div>
-			<p></p>
-			<input type="text" name="FirstName" placeholder="First" onChange={setInput}></input>
-			<input type="text" name="LastName" placeholder="Last" onChange={setInput}></input>
-			<input type="text" name="Address" placeholder="Address" onChange={setInput}></input>
-			<button onClick={() => getData()}> Click </button>
-			<button onClick={() => createCustomer()}> Create </button>
-			<p></p>
-			</div >
+		    <div>
+			    <p></p>
+		        <div className="Customer">
+                    <h1>New Customer</h1>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="text"
+                            name="FirstName"
+                            placeholder="First Name"
+                            onChange={setInput}
+                        />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="text"
+                            name="LastName"
+                            placeholder="Last Name"
+                            onChange={setInput}
+                        />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="text"
+                            name="Address"
+                            placeholder="Address"
+                            onChange={setInput}
+                        />      
+                    </InputGroup>
+                </div>
+			    <Button className="button" variant='success' onClick={() => getData()}> Refresh </Button>
+			    <Button variant='success' onClick={() => createCustomer()}> Create </Button>
+			    <p></p>
+            </div >
+            <Table widthstriped bordered hover size="small" className="Table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th> Address</th>
+                    </tr>
+                </thead>
+                <tbody>
 			{
 			data.map && data.map((item, idx) => {
 				return (
-			<div key={item.id}>
-			{item.FirstName + " "}
-			{item.LastName + " "}
-			{item.Address}
-			</div>
+			<tr key={item.id}>
+            <td>{item.Id}</td>
+			<td>{item.FirstName}</td>
+			<td>{item.LastName}</td>
+			<td>{item.Address}</td>
+            </tr>
+			
 			)
 		})
-	}
+	        }
+            </tbody>
+            </Table>
 		<div>
 			<p></p>
-			<input type="text" name="Name" placeholder="Product Name" onChange={setPinput}></input>
-			<input type="text" name="Size" placeholder="Size" onChange={setPinput}></input>
-			<button onClick={() => getProduct()}> Click </button>
-			<button onClick={() => createProduct()}> Create </button>
+			<div className="Customer">
+                    <h1>New Product</h1>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="text"
+                            name="Name"
+                            placeholder="Product Name"
+                            onChange={setPinput}
+                        />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="text"
+                            name="Size"
+                            placeholder="Product Size"
+                            onChange={setPinput}
+                        />
+                    </InputGroup>
+                </div>
+			<Button className="button" variant="success" onClick={() => getProduct()}> Refresh </Button>
+			<Button variant="success" onClick={() => createProduct()}> Create </Button>
 			<p></p>
 		</div >
+        <Table widthstriped bordered hover size="small" className="Table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Size</th>
+                    </tr>
+                </thead>
+                <tbody>
 		{
 			pdata.map && pdata.map((item, idx) => {
 				return (
-					<div key={item.id}>
-						{item.Name + " "}
-						{item.Size + " "}
-					</div>
+					<tr key={item.Id}>
+                        <td>{item.Id}</td>
+						<td>{item.Name}</td>
+						<td>{item.Size}</td>
+					</tr>
 				)
 			})
 		}
+        </tbody>
+        </Table>
 		<div>
 			<p></p>
-			<input type="number" name="ProductId" placeholder="Customer Id" onChange={setOinput}></input>
+			{/* <input type="number" name="ProductId" placeholder="Customer Id" onChange={setOinput}></input>
 			<input type="number" name="CustomerId" placeholder="Product Id" onChange={setOinput}></input>
-			<input type="number" name="Amount" placeholder="Amount" onChange={setOinput}></input>
-			<button onClick={() => getProduct()}> Click </button>
-			<button onClick={() => createOrder()}> Create </button>
+			<input type="number" name="Amount" placeholder="Amount" onChange={setOinput}></input> */}
+            <h1>New Order</h1>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="number"
+                            name="CustomerId"
+                            placeholder="Customer Id"
+                            onChange={setOinput}
+                        />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="number"
+                            name="ProductId"
+                            placeholder="Product Id"
+                            onChange={setOinput}
+                        />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="number"
+                            name="Amount"
+                            placeholder="Total Amount"
+                            onChange={setOinput}
+                        />
+                    </InputGroup>
+			<Button className="Button" variant="success" onClick={() => getOrders()}> Click </Button>
+			<Button variant="success" onClick={() => createOrder()}> Create </Button>
 			<p></p>
 		</div >
+        <Table widthstriped bordered hover size="small" className="Table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Customer Id #</th>
+                        <th>Product Id #</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
 		{
 			odata.map && odata.map((item, idx) => {
 				return (
-					<div key={item.id}>
-						{item.CustomerId + " "}
-						{item.ProductId + " "}
-						{item.Amount}
-					</div>
+					<tr key={item.Id}>
+                        <td>{item.Id}</td>
+						<td>{item.CustomerId}</td>
+						<td>{item.ProductId}</td>
+						<td>{item.Amount}</td>
+					</tr>
 				)
 			})
 		}
+        </tbody>
+        </Table>
 	</div>
 		
 	);
