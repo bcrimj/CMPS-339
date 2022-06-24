@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../images/lion.png';
+
 
 function Alldata(){
     const [data, setData] = useState(['hello']);
@@ -123,7 +123,7 @@ function Alldata(){
 
     return (
 		<div className="App">
-		<img className="Lion" src={logo}/>
+		
 		
 		
 			<div>

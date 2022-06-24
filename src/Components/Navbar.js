@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container} from 'react-bootstrap';
+import { Navbar, Nav, Container, Dropdown} from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 
@@ -12,6 +12,16 @@ function Basenav() {
       <Nav.Link as={Link} to="/User">User</Nav.Link>
       <Nav.Link href="#pricing">Pricing</Nav.Link>
     </Nav>
+    <Dropdown>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+            Dropdown Button
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+            <Dropdown.Item>
+                <input type="text" placeholder="login"></input>
+            </Dropdown.Item>
+        </Dropdown.Menu>
+    </Dropdown>
     </Container>
   </Navbar>
     )
