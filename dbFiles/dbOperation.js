@@ -62,6 +62,19 @@ const createProduct = async(Product) => {
     }
 }
 
+const deleteProduct = async(ProdId) => {
+    try {
+    let pool = await sql.connect(config);
+    let products = pool.request()
+    .query(`DELETE FROM Products WHERE Id = ${ProdId}`)
+    return products;
+    }
+    catch(error) {
+        console.log(error)
+        return error;
+    }
+}
+
 const createOrder = async(Order) => {
     try {
         let pool = await sql.connect(config);
@@ -80,5 +93,6 @@ module.exports = {
     getProduct,
     createProduct,
     createOrder,
-    getOrder
+    getOrder,
+    deleteProduct
 }

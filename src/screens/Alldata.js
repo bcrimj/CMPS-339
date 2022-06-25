@@ -3,10 +3,9 @@ import { Table, InputGroup, FormControl, Button } from 'react-bootstrap';
 import '../screens/Alldata.css';
 function Alldata(){
     const [data, setData] = useState(['hello']);
-	const [pdata, setPdata] = useState(['']);
 	const [odata, setOdata] = useState(['']);
 	const [customer, setCustomer] = useState({FirstName: '', LastName: '', Address: ''});
-	const [product, setProduct] = useState({Name: '', Size: ''});
+	
 	const [order, setOrder] = useState({ProductId: 0, CustomerId: 0, Amount : 0});
 
 	const setInput = (e) => {
@@ -17,13 +16,7 @@ function Alldata(){
 		}))
 	}
 
-	const setPinput = (e) => {
-		const {name, value } = e.target;
-		setProduct(prevState => ({
-			...prevState,
-			[name]: value
-		}))
-	}
+
 
 	const setOinput = (e) => {
 		const {name, value } = e.target;
@@ -46,18 +39,6 @@ function Alldata(){
 		setData(newData);
 	 }
 
-	 const getProduct = async () => {
-		const newData = await fetch('/product', {
-			method: 'GET',
-			headers: {
-				'content-type': 'application/json',
-				'Accept': 'application/json'
-			}
-		})
-		.then(res => res.json());
-		setPdata(newData)
-	}
-
 	const getOrders = async () => {
 		const newData = await fetch('/order', {
 			method: 'GET',
@@ -72,7 +53,7 @@ function Alldata(){
 	 }
 
 	const createCustomer = async () => {
-		const newData = await fetch('/create', {
+		await fetch('/create', {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
@@ -85,23 +66,10 @@ function Alldata(){
 		.then(getData());
 	}
 
-	const createProduct = async () => {
-		const newData = await fetch('/pcreate', {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify({
-				...product
-			})
-			
-		})
-		.then(getProduct());
-	}
+	
 
 	const createOrder = async () => {
-		const newData = await fetch('/ocreate', {
+		await fetch('/ocreate', {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
@@ -117,8 +85,8 @@ function Alldata(){
 
 	useEffect(() => {
 		getData();
-		getProduct();
 		getOrders();
+        // eslint-disable-next-line
 	}, []);
 
     return (
@@ -156,7 +124,7 @@ function Alldata(){
 			    <Button variant='success' onClick={() => createCustomer()}> Create </Button>
 			    <p></p>
             </div >
-            <Table widthstriped bordered hover size="small" className="Table">
+            <Table striped bordered hover size="small" className="Table">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -169,7 +137,7 @@ function Alldata(){
 			{
 			data.map && data.map((item, idx) => {
 				return (
-			<tr key={item.id}>
+			<tr key={item.Id}>
             <td>{item.Id}</td>
 			<td>{item.FirstName}</td>
 			<td>{item.LastName}</td>
@@ -181,54 +149,12 @@ function Alldata(){
 	        }
             </tbody>
             </Table>
-		<div>
+		
 			<p></p>
 			<div className="Customer">
                     <h1>New Product</h1>
-                    <InputGroup className="mb-3">
-                        <FormControl
-                            type="text"
-                            name="Name"
-                            placeholder="Product Name"
-                            onChange={setPinput}
-                        />
-                    </InputGroup>
-                    <InputGroup className="mb-3">
-                        <FormControl
-                            type="text"
-                            name="Size"
-                            placeholder="Product Size"
-                            onChange={setPinput}
-                        />
-                    </InputGroup>
-                </div>
-			<Button className="button" variant="success" onClick={() => getProduct()}> Refresh </Button>
-			<Button variant="success" onClick={() => createProduct()}> Create </Button>
-			<p></p>
-		</div >
-        <Table widthstriped bordered hover size="small" className="Table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Product Name</th>
-                        <th>Size</th>
-                    </tr>
-                </thead>
-                <tbody>
-		{
-			pdata.map && pdata.map((item, idx) => {
-				return (
-					<tr key={item.Id}>
-                        <td>{item.Id}</td>
-						<td>{item.Name}</td>
-						<td>{item.Size}</td>
-					</tr>
-				)
-			})
-		}
-        </tbody>
-        </Table>
-		<div>
+                    
+		
 			<p></p>
 			{/* <input type="number" name="ProductId" placeholder="Customer Id" onChange={setOinput}></input>
 			<input type="number" name="CustomerId" placeholder="Product Id" onChange={setOinput}></input>
@@ -258,11 +184,11 @@ function Alldata(){
                             onChange={setOinput}
                         />
                     </InputGroup>
-			<Button className="Button" variant="success" onClick={() => getOrders()}> Click </Button>
+			<Button className="button" variant="success" onClick={() => getOrders()}> Refresh </Button>
 			<Button variant="success" onClick={() => createOrder()}> Create </Button>
 			<p></p>
 		</div >
-        <Table widthstriped bordered hover size="small" className="Table">
+        <Table striped bordered hover size="small" className="Table">
                 <thead>
                     <tr>
                         <th>#</th>

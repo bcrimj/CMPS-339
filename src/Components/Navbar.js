@@ -1,5 +1,5 @@
 import { Navbar, Nav, Container, Dropdown} from 'react-bootstrap';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 
 function Basenav() {
@@ -10,6 +10,7 @@ function Basenav() {
     <Nav className="me-auto">
       <Nav.Link as={Link} to="/">Home</Nav.Link>
       <Nav.Link as={Link} to="/User">User</Nav.Link>
+      <Nav.Link as={Link} to="/Products">Products</Nav.Link>
       <Nav.Link href="#pricing">Pricing</Nav.Link>
     </Nav>
     <Dropdown>

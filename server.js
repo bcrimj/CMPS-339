@@ -35,6 +35,11 @@ app.get('/product', async(req, res) => {
     res.send(result.recordset)
 })
 
+app.post('/product/delete', async(req, res) => {
+    const result = await dbOperation.deleteProduct(req.body.Id);
+    res.send(result);
+})
+
 app.get('/order', async(req, res) => {
     const result = await dbOperation.getOrder();
     res.send(result.recordset)
