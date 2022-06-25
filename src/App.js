@@ -17,8 +17,8 @@ function App() {
 		<Basenav />
 		<Routes>
 			<Route path="/" element={<Alldata/>}/>
-			<Route path="User" element={<Userscreen/>}/>
-			<Route path="Products" element={<Products/>}/>
+			<Route path="/User" element={<Userscreen/>}/>
+			<Route path="/Products" element={<Products/>}/>
 		</Routes>
 		</div>
 	)

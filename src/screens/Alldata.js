@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, InputGroup, FormControl, Button } from 'react-bootstrap';
 import '../screens/Alldata.css';
-function Alldata(){
-    const [data, setData] = useState(['hello']);
+export function Alldata(){
+    const [data, setData] = useState(['']);
 	const [odata, setOdata] = useState(['']);
 	const [customer, setCustomer] = useState({FirstName: '', LastName: '', Address: ''});
 	
@@ -26,7 +26,6 @@ function Alldata(){
 		}))
 	}
 	const getData = async () => {
-		console.log(data)
 		const newData = await fetch('/api', {
 			method: 'GET',
 			headers: {
@@ -35,7 +34,6 @@ function Alldata(){
 			}
 		})
 		.then(res => res.json());
-		console.log(newData);
 		setData(newData);
 	 }
 
@@ -152,13 +150,7 @@ function Alldata(){
 		
 			<p></p>
 			<div className="Customer">
-                    <h1>New Product</h1>
-                    
-		
-			<p></p>
-			{/* <input type="number" name="ProductId" placeholder="Customer Id" onChange={setOinput}></input>
-			<input type="number" name="CustomerId" placeholder="Product Id" onChange={setOinput}></input>
-			<input type="number" name="Amount" placeholder="Amount" onChange={setOinput}></input> */}
+                <p></p>
             <h1>New Order</h1>
                     <InputGroup className="mb-3">
                         <FormControl

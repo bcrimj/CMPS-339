@@ -7,6 +7,7 @@ function Products() {
 
     const [pdata, setPdata] = useState(['']);
     const [product, setProduct] = useState({Name: '', Size: ''});
+    
     useEffect (() => {
         getProduct();
         // eslint-disable-next-line
@@ -94,7 +95,7 @@ function Products() {
 			{
 			pdata.map && pdata.map((item, idx) => {
 				return (
-			<tr key={item.Id}>
+            <tr key={item.Id}>
             <td>{item.Id}</td>
 			<td>{item.Name}</td>
 			<td>{item.Size}</td>
