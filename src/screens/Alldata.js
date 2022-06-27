@@ -245,6 +245,7 @@ export function Alldata() {
             <th>Customer Id #</th>
             <th>Product Id #</th>
             <th>Total Amount</th>
+            <th>Shipping Address</th>
           </tr>
         </thead>
         <tbody>
@@ -256,6 +257,7 @@ export function Alldata() {
                   <td>{item.CustomerId}</td>
                   <td>{item.ProductId}</td>
                   <td>{item.Amount}</td>
+                  <td>{item.ShippingAddress}</td>
                 </tr>
               );
             })}
