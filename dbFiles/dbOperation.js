@@ -125,6 +125,20 @@ const createOrder = async (Order) => {
   }
 };
 
+const updateOrder = async (Order) => {
+  try {
+    let pool = await sql.connect(config);
+    let orders = pool
+      .request()
+      .query(
+        `UPDATE Orders SET ProductId = '${Order.ProductId}', Amount = '${Order.Amount}', ShippingAddress = '${Order.ShippingAddress}' WHERE Id = '${Order.Id}';`
+      );
+    return orders;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   getCustomer,
   createCustomer,
@@ -136,4 +150,5 @@ module.exports = {
   loginCustomer,
   getMyOrders,
   deleteOrder,
+  updateOrder,
 };

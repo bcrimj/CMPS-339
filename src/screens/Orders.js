@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useCallback, useEffect, useState } from "react";
-import { Table, InputGroup, FormControl, Button } from "react-bootstrap";
+import { Table, InputGroup, FormControl, Button, Modal } from "react-bootstrap";
 import "../screens/Alldata.css";
 
 export function MyOrders() {
@@ -19,6 +19,14 @@ export function MyOrders() {
     setOrder((prevState) => ({
       ...prevState,
       [name]: parseInt(value),
+    }));
+  };
+
+  const setOStringInput = (e) => {
+    const { name, value } = e.target;
+    setOrder((prevState) => ({
+      ...prevState,
+      [name]: value,
     }));
   };
 
@@ -62,6 +70,33 @@ export function MyOrders() {
     }).then(getMyOrders());
   };
 
+  const updateOrder = async (orderId) => {
+    await fetch("/orders/update", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        Id: `${orderId}`,
+        ProductId: `${order.ProductId}`,
+        Amount: `${order.Amount}`,
+        ShippingAddress: `${order.ShippingAddress}`,
+      }),
+    })
+      .then(getMyOrders())
+      .then(setModalShow(false));
+  };
+
+  const [modalShow, setModalShow] = useState(false);
+
+  const [orderId, setOrderId] = useState();
+
+  const handleUpdate = (param) => {
+    setModalShow(true);
+    setOrderId(param);
+  };
+
   useEffect(() => {
     getMyOrders();
   }, [getMyOrders]);
@@ -94,12 +129,11 @@ export function MyOrders() {
                 type="input"
                 name="ShippingAddress"
                 placeholder="Shipping Address"
-                onChange={setOinput}
+                onChange={setOStringInput}
               />
             </InputGroup>
             <Button variant="success" onClick={() => createOrder()}>
-              {" "}
-              Create{" "}
+              Create
             </Button>
             <p></p>
           </div>
@@ -112,7 +146,8 @@ export function MyOrders() {
                 <th>Product Id #</th>
                 <th>Total Amount</th>
                 <th>Shipping Address</th>
-                <th>Delete Order?</th>
+                <th>Delete</th>
+                <th>Update</th>
               </tr>
             </thead>
             <tbody>
@@ -133,11 +168,60 @@ export function MyOrders() {
                           Delete
                         </Button>
                       </td>
+                      <td>
+                        <Button
+                          variant="warning"
+                          onClick={() => handleUpdate(item.Id)}
+                        >
+                          Update
+                        </Button>
+                      </td>
                     </tr>
                   );
                 })}
             </tbody>
           </Table>
+          <Modal
+            size="lg"
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            aria-labelledby="example-modal-sizes-title-sm"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="example-modal-sizes-title-sm">
+                Update
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <InputGroup className="mb-3">
+                <FormControl
+                  type="number"
+                  name="ProductId"
+                  placeholder="Product Id"
+                  onChange={setOinput}
+                />
+              </InputGroup>
+              <InputGroup className="mb-3">
+                <FormControl
+                  type="number"
+                  name="Amount"
+                  placeholder="Total Amount"
+                  onChange={setOinput}
+                />
+              </InputGroup>
+              <InputGroup className="mb-3">
+                <FormControl
+                  type="input"
+                  name="ShippingAddress"
+                  placeholder="Shipping Address"
+                  onChange={setOStringInput}
+                />
+              </InputGroup>
+              <Button variant="success" onClick={() => updateOrder(orderId)}>
+                Update
+              </Button>
+            </Modal.Body>
+          </Modal>
         </>
       ) : (
         <span>You need to login first</span>
