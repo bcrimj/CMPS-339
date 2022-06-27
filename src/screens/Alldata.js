@@ -6,6 +6,7 @@ import "../screens/Alldata.css";
 export function Alldata() {
   const [data, setData] = useState([""]);
   const [odata, setOdata] = useState([""]);
+  const [pdata, setPdata] = useState([""])
   const [customer, setCustomer] = useState({
     FirstName: "",
     LastName: "",
@@ -82,9 +83,21 @@ export function Alldata() {
     }).then(getOrders());
   };
 
+  const getProduct = async () => {
+    const newData = await fetch('/product', {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json());
+    setPdata(newData)
+}
   useEffect(() => {
     getData();
     getOrders();
+    getProduct();
     // eslint-disable-next-line
   }, []);
 
@@ -93,8 +106,8 @@ export function Alldata() {
       <div>
         <p></p>
         <div className="Customer">
-          <h1>New Customer</h1>
-          <InputGroup className="mb-3">
+          <h1>All Customers</h1>
+          {/* <InputGroup className="mb-3">
             <FormControl
               type="text"
               name="FirstName"
@@ -117,16 +130,16 @@ export function Alldata() {
               placeholder="Address"
               onChange={setInput}
             />
-          </InputGroup>
+          </InputGroup> */}
         </div>
-        <Button className="button" variant="success" onClick={() => getData()}>
+        {/* <Button className="button" variant="success" onClick={() => getData()}>
           {" "}
           Refresh{" "}
         </Button>
         <Button variant="success" onClick={() => createCustomer()}>
           {" "}
           Create{" "}
-        </Button>
+        </Button> */}
         <p></p>
       </div>
       <Table striped bordered hover size="small" className="Table">
@@ -152,12 +165,35 @@ export function Alldata() {
             })}
         </tbody>
       </Table>
-
+        <h1>All Products</h1>
+        <Table striped bordered hover size="small" className="Table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Size</th>
+                    </tr>
+                </thead>
+                <tbody>
+			{
+			pdata.map && pdata.map((item, idx) => {
+				return (
+            <tr key={item.Id}>
+            <td>{item.Id}</td>
+			<td>{item.Name}</td>
+			<td>{item.Size}</td>
+            </tr>
+			
+			)
+		})
+	        }
+            </tbody>
+            </Table>
       <p></p>
       <div className="Customer">
         <p></p>
-        <h1>New Order</h1>
-        <InputGroup className="mb-3">
+        <h1>All Orders</h1>
+        {/* <InputGroup className="mb-3">
           <FormControl
             type="number"
             name="CustomerId"
@@ -199,7 +235,7 @@ export function Alldata() {
         <Button variant="success" onClick={() => createOrder()}>
           {" "}
           Create{" "}
-        </Button>
+        </Button> */}
         <p></p>
       </div>
       <Table striped bordered hover size="small" className="Table">

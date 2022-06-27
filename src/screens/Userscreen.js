@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { InputGroup, FormControl, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import "../screens/Alldata.css";
+
 
 function Userscreen() {
   const navigate = useNavigate();
@@ -56,7 +58,7 @@ function Userscreen() {
           onChange={setInput}
         />
       </InputGroup>
-      <Button variant="success" onClick={() => onClick()}>
+      <Button className="button" variant="success" onClick={() => onClick()}>
         Login
       </Button>
       <p></p>
