@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import "../screens/Alldata.css";
 
 
+
+
 function Userscreen() {
   const navigate = useNavigate();
   const [customer, setCustomer] = useState({ FirstName: "", LastName: "" });
@@ -41,7 +43,7 @@ function Userscreen() {
 
   return (
     <div className="login-page-container">
-      <h1>New Customer</h1>
+      <h1>Login</h1>
       <InputGroup className="mb-3">
         <FormControl
           type="text"
