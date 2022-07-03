@@ -1,39 +1,33 @@
-/** @format */
 
-import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
-import React from "react";
-import { Link } from "react-router-dom";
+
+import { Navbar, Nav, Container  } from "react-bootstrap";
+import React, { useState } from "react";
+import { Link, LinkContainer } from "react-router-dom";
+import { IoCartOutline } from "react-icons/io5";
+import './Nav.css';
+import Cart from "../screens/Cart";
 
 function Basenav() {
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+
   return (
     <Navbar bg="dark" variant="dark" sticky="top">
       <Container>
-        <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">Navbar</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Nav className="me-auto">
-          <Nav.Link as={Link} to="/">
-            Home
-          </Nav.Link>
-          <Nav.Link as={Link} to="User">
-            Login
-          </Nav.Link>
-          <Nav.Link as={Link} to="Products">
-            Products
-          </Nav.Link>
-          <Nav.Link as={Link} to="Orders">
-            Orders
-          </Nav.Link>
-          <Nav.Link href="#pricing">Pricing</Nav.Link>
+          <Nav.Link as={Link} to="/">Home</Nav.Link>
+          <Nav.Link as={Link} to="/user">Login</Nav.Link>
+          <Nav.Link as={Link} to="/products">Products</Nav.Link>
+          <Nav.Link as={Link} to="/orders">Orders</Nav.Link>
         </Nav>
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Dropdown Button
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item>
-              <input type="text" placeholder="login"></input>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+        <h2 className="cart"><IoCartOutline onClick={() => setShow(true)} /></h2>
+        <Cart
+        show={show}
+        onClose={handleClose} />
       </Container>
     </Navbar>
   );
