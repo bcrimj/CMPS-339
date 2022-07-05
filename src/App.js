@@ -2,7 +2,7 @@
 
 import "./App.css";
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Basenav from "./Components/Navbar";
 import Alldata from "./screens/Alldata";
@@ -17,13 +17,18 @@ function App() {
       <div>
         <img className="Lion" alt="A Lion" src={logo} />
       </div>
-      <Basenav />
-      <Routes>
-        <Route path="/" element={<Alldata />} />
-        <Route path="/User" element={<Userscreen />} />
-        <Route path="/Products" element={<Products />} />
-        <Route path="/Orders" element={<MyOrders />} />
-      </Routes>
+      <Router>
+        <Basenav />
+        <Routes>
+          <Route path="/" element={<Alldata />} />
+           
+            <Route path="user" element={<Userscreen />} />
+            <Route path="products" element={<Products />} />
+            <Route path="orders" element={<MyOrders />} />
+            <Route path='*' element={ <Navigate replace to="/"/>}/>
+          
+        </Routes>
+      </Router>
     </div>
   );
 }

@@ -5,6 +5,9 @@ import { InputGroup, FormControl, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../screens/Alldata.css";
 
+
+
+
 function Userscreen() {
   const navigate = useNavigate();
   const [customer, setCustomer] = useState({ FirstName: "", LastName: "" });

@@ -107,7 +107,7 @@ export function Alldata() {
         <p></p>
         <div className="Customer">
           <h1>All Customers</h1>
-          {/* <InputGroup className="mb-3">
+          <InputGroup className="mb-3">
             <FormControl
               type="text"
               name="FirstName"
@@ -130,16 +130,16 @@ export function Alldata() {
               placeholder="Address"
               onChange={setInput}
             />
-          </InputGroup> */}
+          </InputGroup> 
         </div>
-        {/* <Button className="button" variant="success" onClick={() => getData()}>
+        <Button className="button" variant="success" onClick={() => getData()}>
           {" "}
           Refresh{" "}
         </Button>
         <Button variant="success" onClick={() => createCustomer()}>
           {" "}
           Create{" "}
-        </Button> */}
+        </Button> 
         <p></p>
       </div>
       <Table striped bordered hover size="small" className="Table">
@@ -245,6 +245,7 @@ export function Alldata() {
             <th>Customer Id #</th>
             <th>Product Id #</th>
             <th>Total Amount</th>
+            <th>Shipping Address</th>
           </tr>
         </thead>
         <tbody>
@@ -256,6 +257,7 @@ export function Alldata() {
                   <td>{item.CustomerId}</td>
                   <td>{item.ProductId}</td>
                   <td>{item.Amount}</td>
+                  <td>{item.ShippingAddress}</td>
                 </tr>
               );
             })}

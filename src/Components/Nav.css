@@ -1,0 +1,9 @@
+.cart {
+    color: white;
+    border-radius: 50%;
+}
+
+.cart:hover {
+    background: white;
+    color: black;
+}
