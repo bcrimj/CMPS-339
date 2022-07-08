@@ -9,6 +9,7 @@ function Products() {
     const [pdata, setPdata] = useState(['']);
     const [product, setProduct] = useState({Name: '', Size: ''});
     const [cart, setCart] = useState([]);
+    const [amount, setAmount] = useState();
 
     useEffect (() => {
         getProduct();
@@ -68,6 +69,7 @@ function Products() {
     }
 
     const handleCart =  async data => {
+        data.Amount = amount;
         let items = await localStorage.getItem('cart');
         items = JSON.parse(items);
         if (items)
@@ -97,6 +99,11 @@ function Products() {
             }
         }
     }
+
+    const setQuantity = (e) => {
+        let qty = parseInt(e.target.value);
+        setAmount(qty);
+      };
     
     return (
         <div className='products-display'>
@@ -108,9 +115,12 @@ function Products() {
                         <Card.Img variant="top" src={Coffee} style={{ height: '30vh',}} />
                         <Card.Body>
                             <Card.Title>
-                                <text style={{ color: 'green', fontWeight: 'bold'}}>{item.Size} </text> 
-                                <text style={{ fontWeight: 'bold'}}>{item.Name}</text>
-                                <Button variant="success" style={{ float: "right", height: '40px'}} onClick={() => handleCart(item)}>Add to Cart</Button>
+                                <div style={{ display : "flex", flexDirection: "row"}}>
+                                    <text style={{ color: 'green', fontWeight: 'bold', marginRight: "10px"}}>{item.Size} </text> 
+                                    <text style={{ fontWeight: 'bold'}}>{item.Name}</text>
+                                    <input style={{ width: "50px", marginLeft: "auto" }} type="number" placeholder="0" onChange={setQuantity}></input>
+                                    <Button variant="success" style={{ height: '40px', marginLeft: "auto"}} onClick={() => handleCart(item)}>Add</Button>
+                                </div>
                             </Card.Title>
                         </Card.Body>
                     </Card>

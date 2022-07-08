@@ -8,7 +8,9 @@ function Cart(props) {
 
     const {show, onClose} = props;
     const [cart, setCart] = useState([]);
-
+    const [update, setUpdate] = useState();
+    const [total, setTotal] = useState();
+    
     useEffect (() => {
         const items = JSON.parse(localStorage.getItem('cart'));
         if (items) {
@@ -26,7 +28,18 @@ function Cart(props) {
         console.log(cart);
        }
 
-    
+    const updateQty = (e, data) => {
+        let newcart = cart.map((item) => {
+            if(item.Id === data.Id){
+                {item.Amount = parseInt(e)};
+            }
+            return item;
+        })
+        setCart(newcart);
+        console.log(cart);
+    }
+
+   
 
     return (
         <Modal
@@ -39,9 +52,13 @@ function Cart(props) {
                     <div style={{ marginBottom: "20px"}}>
                     <text style={{ fontWeight: 'bold'}}>{item.Size} </text> 
                     <text>{item.Name}</text>
+                    <input type="number" placeholder={item.Amount} style={{ width: "50px"}} onChange={(event) => updateQty(event.target.value, item)}></input>
                     <IoTrashOutline style={{ float: 'right', color: 'red'}} onClick={() => removeItem(item.Id)}/>
                     </div>
                 ))}
+                <div style={{ textAlign: "right", borderTopColor: "black", borderTop: "2px solid black", width: "100%"}}>
+                    <text style={{ }}>Total</text>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="success">Checkout</Button>
