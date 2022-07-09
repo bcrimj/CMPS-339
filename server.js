@@ -13,7 +13,7 @@ app.use(express.urlencoded());
 app.use(cors());
 
 app.get("/api", async (req, res) => {
-  console.log("Called");
+  console.log("Called get customer");
   const result = await dbOperation.getCustomer();
   res.send(result.recordset);
 });
@@ -21,7 +21,7 @@ app.get("/api", async (req, res) => {
 app.post("/create", async (req, res) => {
   await dbOperation.createCustomer(req.body);
   const result = await dbOperation.getCustomer();
-  console.log("Called create");
+  console.log("Called create customer");
   res.send(result.recordset);
 });
 

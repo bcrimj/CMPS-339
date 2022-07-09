@@ -28,7 +28,6 @@ function App() {
         <Basenav />
         <Routes>
           <Route path="/" element={<Alldata />} />
-
           <Route path="user" element={<Userscreen />} />
           <Route path="products" element={<Products />} />
           <Route path="orders" element={<MyOrders />} />
