@@ -113,11 +113,13 @@ const deleteOrder = async (Id) => {
 
 const createOrder = async (Order) => {
   try {
+    
+    console.log(Order);
     let pool = await sql.connect(config);
     let orders = pool
       .request()
       .query(
-        `INSERT INTO Orders VALUES ('${Order.ProductId}', '${Order.CustomerId}', '${Order.Amount}', '${Order.ShippingAddress}')`
+        `INSERT INTO Orders VALUES ('${Order.ProductId}','${Order.CustomerId}','${Order.Amount}','${Order.ShippingAddress}','${Order.Price}')`
       );
     return orders;
   } catch (error) {

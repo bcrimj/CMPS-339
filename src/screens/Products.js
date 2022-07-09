@@ -40,20 +40,7 @@ function Products() {
 		setPdata(newData)
 	}
 
-    const createProduct = async () => {
-		await fetch('/pcreate', {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify({
-				...product
-			})
-			
-		})
-		.then(getProduct());
-	}
+    
 
     const deleteProduct = async (x) => {
         await fetch('/product/delete', {
