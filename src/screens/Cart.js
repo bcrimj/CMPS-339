@@ -20,13 +20,12 @@ function Cart(props) {
     },[show]);
 
     useEffect (() => {
-        console.log(JSON.stringify(order));
         const submitOrder = async () => {
         if (order.length < 1) {
             return;
         }
         else {
-            console.log(order);
+            for (let i=0; i <order.length; i++) {
             await fetch("/ocreate", {
             method: "POST",
             headers: {
@@ -34,10 +33,10 @@ function Cart(props) {
                 Accept: "application/json",
           },
           body: JSON.stringify({
-           ...order
+           ...order[i]
           }),
-          
-        })
+        
+        })}
         }
        
     }
@@ -65,8 +64,7 @@ function Cart(props) {
         setCart(newcart);
         await localStorage.setItem('cart', JSON.stringify(newcart));
         getTotal(newcart);
-        console.log(cart);
-        console.log(total);
+        
     }
 
     const getTotal = data => {
@@ -89,15 +87,14 @@ function Cart(props) {
         let orderArray = [];
         for (let i = 0; i < cart.length; i++) {
            orderArray.push({
-            ProductId: cart[i].Id,
-            CustomerId: 1,
+            ProductId: parseInt(cart[i].Id),
+            CustomerId: parseInt(1),
             Amount: cart[i].Amount,
             ShippingAddress: "12 Electric Avenue",
             Price: cart[i].Amount * cart[i].Price
            })
     }
     setOrder(orderArray);
-    console.log(cart);
     };
     
     
