@@ -2,7 +2,12 @@
 
 import "./App.css";
 import React from "react";
-import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Basenav from "./Components/Navbar";
 import Alldata from "./screens/Alldata";
@@ -21,12 +26,10 @@ function App() {
         <Basenav />
         <Routes>
           <Route path="/" element={<Alldata />} />
-           
-            <Route path="user" element={<Userscreen />} />
-            <Route path="products" element={<Products />} />
-            <Route path="orders" element={<MyOrders />} />
-            <Route path='*' element={ <Navigate replace to="/"/>}/>
-          
+          <Route path="user" element={<Userscreen />} />
+          <Route path="products" element={<Products />} />
+          <Route path="orders" element={<MyOrders />} />
+          <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </Router>
     </div>
