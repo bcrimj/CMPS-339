@@ -172,6 +172,7 @@ function Cart(props) {
                 placeholder={item.Amount}
                 style={{ width: "50px", marginRight: "30px" }}
                 onChange={(event) => updateQty(event.target.value, item)}
+                onKeyDown={(event) => {event.preventDefault();}}
               ></input>
               <span style={{}}>{doMath(item).toFixed(2)}</span>
               <IoTrashOutline

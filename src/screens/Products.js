@@ -153,6 +153,9 @@ function Products() {
                           min="1"
                           placeholder={1}
                           onChange={setQuantity}
+                          onKeyDown={(event) => {
+                            event.preventDefault();
+                          }}
                         ></input>
                         <Button
                           variant="success"
