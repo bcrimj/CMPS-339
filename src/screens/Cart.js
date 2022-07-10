@@ -1,7 +1,7 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
-import { Modal, Button, FormControl, InputGroup } from "react-bootstrap";
+import React, { useState, useEffect, useCallback } from "react";
+import { Modal, Button, FormControl, InputGroup, Form } from "react-bootstrap";
 import "./Cart.css";
 import { IoTrashOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
@@ -14,6 +14,23 @@ function Cart(props) {
   const [tax, setTax] = useState(0);
   const [order, setOrder] = useState([]);
   const navigate = useNavigate();
+  const [shippingAddressOptions, setShippingAddressOptions] = useState([""]);
+  const [usePastShippingAddress, setUsePastShippingAddress] = useState(false);
+
+  const getShippingAddresses = useCallback(async () => {
+    const customerId = JSON.parse(localStorage.getItem("id"));
+    const data = await fetch(
+      `/orders/shipping-address/options?CustomerId=${customerId}`,
+      {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    ).then((res) => res.json());
+    setShippingAddressOptions(data);
+  }, []);
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("cart"));
@@ -21,7 +38,8 @@ function Cart(props) {
       setCart(items);
     }
     getTotal(items);
-  }, [show]);
+    getShippingAddresses();
+  }, [show, getShippingAddresses]);
 
   useEffect(() => {
     const submitOrder = async () => {
@@ -42,10 +60,20 @@ function Cart(props) {
         }
       }
       toast.success("Order placed!");
+      setOrder([]);
+      setCart([]);
+      setTotal(0);
+      setTax(0);
+      setUsePastShippingAddress(false);
+      clearCart();
       navigate("orders");
     };
     submitOrder();
-  }, [order]);
+  }, [order, navigate]);
+
+  const clearCart = () => {
+    localStorage.removeItem("cart");
+  };
 
   const removeItem = async (id) => {
     const arr = cart.filter((item) => item.Id !== id);
@@ -165,15 +193,67 @@ function Cart(props) {
             <span style={{}}>Total: {total.toFixed(2)}</span>
           </div>
         </div>
-        <div>
-          <InputGroup>
-            <FormControl
-              type="input"
-              name="shippingAddress"
-              placeholder="Shipping Address"
-              onChange={setInputShippingAddress}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              marginTop: "10px",
+            }}
+          >
+            Toggle Shipping Address
+            <Form.Switch
+              onChange={() =>
+                setUsePastShippingAddress(!usePastShippingAddress)
+              }
             />
-          </InputGroup>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+              marginTop: "10px",
+            }}
+          >
+            <InputGroup
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              <FormControl
+                disabled={usePastShippingAddress === false}
+                type="input"
+                name="shippingAddress"
+                placeholder="Shipping Address"
+                onChange={setInputShippingAddress}
+              />
+            </InputGroup>
+            <Form.Select
+              onChange={setInputShippingAddress}
+              disabled={usePastShippingAddress === true}
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              <option>Select Past Shipping Address</option>
+              {shippingAddressOptions &&
+                shippingAddressOptions.map((x) => {
+                  return (
+                    <option value={x.shippingAddress}>
+                      {x.ShippingAddress}
+                    </option>
+                  );
+                })}
+            </Form.Select>
+          </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
