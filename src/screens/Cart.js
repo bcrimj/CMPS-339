@@ -4,11 +4,13 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, FormControl, InputGroup } from "react-bootstrap";
 import "./Cart.css";
 import { IoTrashOutline } from "react-icons/io5";
+import toast from "react-hot-toast";
 
 function Cart(props) {
   const { show, onClose } = props;
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [tax, setTax] = useState(0);
   const [order, setOrder] = useState([]);
 
   useEffect(() => {
@@ -66,13 +68,16 @@ function Cart(props) {
 
   const getTotal = (data) => {
     let total = 0;
+    let taxes = 0;
     if (data) {
       for (let index = 0; index < data.length; index++) {
         const productPrice = data[index].Price * data[index].Amount;
         total = total + productPrice;
+        taxes = taxes + total * 0.1;
       }
     }
-    setTotal(total);
+    setTax(taxes);
+    setTotal(total + tax);
   };
 
   const doMath = (item) => {
@@ -84,7 +89,8 @@ function Cart(props) {
 
   const createOrder = async () => {
     const customerId = JSON.parse(localStorage.getItem("id"));
-    if (!customerId || !shippingAddress) {
+    if (customerId === null) {
+      toast.error("You need to log in first!");
       return;
     }
     let orderArray = [];
@@ -147,10 +153,13 @@ function Cart(props) {
             width: "100%",
           }}
         >
-          <span style={{}}>Total: {total.toFixed(2)}</span>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span style={{}}>Tax: {tax.toFixed(2)}</span>
+            <span style={{}}>Total: {total.toFixed(2)}</span>
+          </div>
         </div>
         <div>
-          <InputGroup className="mb-3">
+          <InputGroup>
             <FormControl
               type="input"
               name="shippingAddress"

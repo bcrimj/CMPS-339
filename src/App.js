@@ -20,10 +20,10 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <div>
-      <Toaster position="top-right" />
       <div>
         <img className="Lion" alt="A Lion" src={logo} />
       </div>
+      <Toaster position="top-right" />
       <Router>
         <Basenav />
         <Routes>
