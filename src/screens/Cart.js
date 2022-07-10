@@ -168,6 +168,7 @@ function Cart(props) {
             <div style={{ marginLeft: "auto" }}>
               <input
                 type="number"
+                min="1"
                 placeholder={item.Amount}
                 style={{ width: "50px", marginRight: "30px" }}
                 onChange={(event) => updateQty(event.target.value, item)}

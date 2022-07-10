@@ -150,6 +150,7 @@ function Products() {
                         <input
                           style={{ width: "50px" }}
                           type="number"
+                          min="1"
                           placeholder={1}
                           onChange={setQuantity}
                         ></input>
