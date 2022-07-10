@@ -2,15 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import "../screens/Alldata.css";
-import { Table, Button, Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import Coffee from "../images/coffee.jpg";
 import toast from "react-hot-toast";
+import { IoCartOutline } from "react-icons/io5";
 
 function Products() {
   const [pdata, setPdata] = useState([""]);
   const [product, setProduct] = useState({ Name: "", Size: "" });
   const [cart, setCart] = useState([]);
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState(1);
 
   useEffect(() => {
     getProduct();
@@ -100,7 +101,11 @@ function Products() {
                   marginTop: "20px",
                   marginRight: "20px",
                   width: "40vh",
+                  padding: "10px",
+                  boxShadow:
+                    "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                 }}
+                border="success"
               >
                 <Card.Img
                   variant="top"
@@ -109,30 +114,53 @@ function Products() {
                 />
                 <Card.Body>
                   <Card.Title>
-                    <div style={{ display: "flex", flexDirection: "row" }}>
-                      <text
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div
                         style={{
-                          color: "green",
-                          fontWeight: "bold",
-                          marginRight: "10px",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
                         }}
                       >
-                        {item.Size}
-                      </text>
-                      <text style={{ fontWeight: "bold" }}>{item.Name}</text>
-                      <input
-                        style={{ width: "50px", marginLeft: "auto" }}
-                        type="number"
-                        placeholder="0"
-                        onChange={setQuantity}
-                      ></input>
-                      <Button
-                        variant="success"
-                        style={{ height: "40px", marginLeft: "auto" }}
-                        onClick={() => handleCart(item)}
+                        <span
+                          style={{
+                            color: "green",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {item.Size}
+                        </span>
+                        <span style={{ fontWeight: "bold" }}>{item.Name}</span>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "flex-end",
+                          marginTop: "10px",
+                        }}
                       >
-                        Add
-                      </Button>
+                        <input
+                          style={{ width: "50px" }}
+                          type="number"
+                          value={1}
+                          onChange={setQuantity}
+                        ></input>
+                        <Button
+                          variant="success"
+                          style={{ height: "40px" }}
+                          onClick={() => handleCart(item)}
+                        >
+                          <IoCartOutline />
+                        </Button>
+                      </div>
                     </div>
                   </Card.Title>
                 </Card.Body>

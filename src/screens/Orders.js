@@ -105,38 +105,6 @@ export function MyOrders() {
     <div className="App">
       {odata ? (
         <>
-          <div className="Customer">
-            <p></p>
-            <h1>New Order</h1>
-            <InputGroup className="mb-3">
-              <FormControl
-                type="number"
-                name="ProductId"
-                placeholder="Product Id"
-                onChange={setOinput}
-              />
-            </InputGroup>
-            <InputGroup className="mb-3">
-              <FormControl
-                type="number"
-                name="Amount"
-                placeholder="Total Amount"
-                onChange={setOinput}
-              />
-            </InputGroup>
-            <InputGroup className="mb-3">
-              <FormControl
-                type="input"
-                name="ShippingAddress"
-                placeholder="Shipping Address"
-                onChange={setOStringInput}
-              />
-            </InputGroup>
-            <Button variant="success" onClick={() => createOrder()}>
-              Create
-            </Button>
-            <p></p>
-          </div>
           <h1>My Orders</h1>
           <Table striped bordered hover size="small" className="Table">
             <thead>

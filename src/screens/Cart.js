@@ -5,6 +5,7 @@ import { Modal, Button, FormControl, InputGroup } from "react-bootstrap";
 import "./Cart.css";
 import { IoTrashOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function Cart(props) {
   const { show, onClose } = props;
@@ -12,6 +13,7 @@ function Cart(props) {
   const [total, setTotal] = useState(0);
   const [tax, setTax] = useState(0);
   const [order, setOrder] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("cart"));
@@ -39,6 +41,8 @@ function Cart(props) {
           });
         }
       }
+      toast.success("Order placed!");
+      navigate("orders");
     };
     submitOrder();
   }, [order]);
@@ -52,6 +56,7 @@ function Cart(props) {
     await localStorage.setItem("cart", JSON.stringify(newArr));
     getTotal(newArr);
     console.log(cart);
+    toast.success("Removed");
   };
 
   const updateQty = async (e, data) => {
@@ -77,7 +82,7 @@ function Cart(props) {
       }
     }
     setTax(taxes);
-    setTotal(total + tax);
+    setTotal(total + taxes);
   };
 
   const doMath = (item) => {
@@ -100,7 +105,8 @@ function Cart(props) {
         CustomerId: customerId,
         Amount: cart[i].Amount,
         ShippingAddress: shippingAddress,
-        Price: cart[i].Amount * cart[i].Price,
+        Price:
+          cart[i].Amount * cart[i].Price + cart[i].Amount * cart[i].Price * 0.1,
       });
     }
     setOrder(orderArray);
@@ -124,6 +130,7 @@ function Cart(props) {
               display: "flex",
               flexDirection: "row",
             }}
+            key={item}
           >
             <div style={{ marginRight: "5px" }}>
               <span style={{ fontWeight: "bold" }}>{item.Size} </span>
