@@ -4,9 +4,7 @@ import React, { useState } from "react";
 import { InputGroup, FormControl, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../screens/Alldata.css";
-
-
-
+import toast from "react-hot-toast";
 
 function Userscreen() {
   const navigate = useNavigate();
@@ -36,8 +34,12 @@ function Userscreen() {
 
   const validateCustomer = (Id) => {
     if (Id) {
+      localStorage.removeItem("id");
       localStorage.setItem("id", JSON.stringify(Id));
       navigate("/");
+      toast.success("Successfully Logged In");
+    } else {
+      toast.error("Login Failed");
     }
   };
 

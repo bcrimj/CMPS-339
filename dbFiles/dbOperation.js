@@ -33,7 +33,9 @@ const getMyOrders = async (CustomerId) => {
     let pool = await sql.connect(config);
     let orders = await pool
       .request()
-      .query(`SELECT * FROM Orders WHERE CustomerId = ${CustomerId}`);
+      .query(
+        `SELECT Orders.Id, Orders.Price, Orders.Amount, Orders.ShippingAddress, Products.Name, Products.Size FROM Orders INNER JOIN Products ON Orders.ProductId=Products.Id WHERE CustomerId = 1`
+      );
     return orders;
   } catch (error) {
     console.log(error);
@@ -59,6 +61,7 @@ const getOrder = async () => {
     return error;
   }
 };
+
 const createCustomer = async (Customer) => {
   try {
     let pool = await sql.connect(config);
@@ -100,7 +103,6 @@ const deleteProduct = async (ProdId) => {
 };
 
 const deleteOrder = async (Id) => {
-  console.log("sql id", Id);
   try {
     let pool = await sql.connect(config);
     let orders = pool.request().query(`DELETE FROM Orders WHERE Id = ${Id}`);
@@ -121,8 +123,21 @@ const createOrder = async (Order) => {
         `INSERT INTO Orders VALUES ('${Order.ProductId}', '${Order.CustomerId}', '${Order.Amount}', '${Order.ShippingAddress}', '${Order.Price}' )`
       );
     return orders;
-    } 
-  catch (error) {
+  } catch (error) {
+    return error;
+  }
+};
+
+const getMyShippingAddresses = async (CustomerId) => {
+  try {
+    let pool = await sql.connect(config);
+    let shippingAddresses = pool
+      .request()
+      .query(
+        `SELECT DISTINCT ShippingAddress FROM Orders WHERE CustomerId = '${CustomerId}'`
+      );
+    return shippingAddresses;
+  } catch (error) {
     return error;
   }
 };
@@ -153,4 +168,5 @@ module.exports = {
   getMyOrders,
   deleteOrder,
   updateOrder,
+  getMyShippingAddresses,
 };

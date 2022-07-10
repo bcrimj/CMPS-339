@@ -6,7 +6,7 @@ import "../screens/Alldata.css";
 export function Alldata() {
   const [data, setData] = useState([""]);
   const [odata, setOdata] = useState([""]);
-  const [pdata, setPdata] = useState([""])
+  const [pdata, setPdata] = useState([""]);
   const [customer, setCustomer] = useState({
     FirstName: "",
     LastName: "",
@@ -84,16 +84,15 @@ export function Alldata() {
   };
 
   const getProduct = async () => {
-    const newData = await fetch('/product', {
-        method: 'GET',
-        headers: {
-            'content-type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(res => res.json());
-    setPdata(newData)
-}
+    const newData = await fetch("/product", {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+      },
+    }).then((res) => res.json());
+    setPdata(newData);
+  };
   useEffect(() => {
     getData();
     getOrders();
@@ -130,16 +129,14 @@ export function Alldata() {
               placeholder="Address"
               onChange={setInput}
             />
-          </InputGroup> 
+          </InputGroup>
         </div>
         <Button className="button" variant="success" onClick={() => getData()}>
-          {" "}
-          Refresh{" "}
+          Refresh
         </Button>
         <Button variant="success" onClick={() => createCustomer()}>
-          {" "}
-          Create{" "}
-        </Button> 
+          Create
+        </Button>
         <p></p>
       </div>
       <Table striped bordered hover size="small" className="Table">
@@ -165,77 +162,32 @@ export function Alldata() {
             })}
         </tbody>
       </Table>
-        <h1>All Products</h1>
-        <Table striped bordered hover size="small" className="Table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Product Name</th>
-                        <th>Size</th>
-                    </tr>
-                </thead>
-                <tbody>
-			{
-			pdata.map && pdata.map((item, idx) => {
-				return (
-            <tr key={item.Id}>
-            <td>{item.Id}</td>
-			<td>{item.Name}</td>
-			<td>{item.Size}</td>
-            </tr>
-			
-			)
-		})
-	        }
-            </tbody>
-            </Table>
+      <h1>All Products</h1>
+      <Table striped bordered hover size="small" className="Table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Product Name</th>
+            <th>Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pdata.map &&
+            pdata.map((item, idx) => {
+              return (
+                <tr key={item.Id}>
+                  <td>{item.Id}</td>
+                  <td>{item.Name}</td>
+                  <td>{item.Size}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </Table>
       <p></p>
       <div className="Customer">
         <p></p>
         <h1>All Orders</h1>
-        {/* <InputGroup className="mb-3">
-          <FormControl
-            type="number"
-            name="CustomerId"
-            placeholder="Customer Id"
-            onChange={setOinput}
-          />
-        </InputGroup>
-        <InputGroup className="mb-3">
-          <FormControl
-            type="number"
-            name="ProductId"
-            placeholder="Product Id"
-            onChange={setOinput}
-          />
-        </InputGroup>
-        <InputGroup className="mb-3">
-          <FormControl
-            type="number"
-            name="Amount"
-            placeholder="Total Amount"
-            onChange={setOinput}
-          />
-        </InputGroup>
-        <InputGroup className="mb-3">
-          <FormControl
-            type="input"
-            name="ShippingAddress"
-            placeholder="Shipping Address"
-            onChange={setOinput}
-          />
-        </InputGroup>
-        <Button
-          className="button"
-          variant="success"
-          onClick={() => getOrders()}
-        >
-          Refresh
-        </Button>
-        <Button variant="success" onClick={() => createOrder()}>
-          {" "}
-          Create{" "}
-        </Button> */}
         <p></p>
       </div>
       <Table striped bordered hover size="small" className="Table">
@@ -250,7 +202,7 @@ export function Alldata() {
         </thead>
         <tbody>
           {odata.map &&
-            odata.map((item, idx) => {
+            odata.map((item) => {
               return (
                 <tr key={item.Id}>
                   <td>{item.Id}</td>

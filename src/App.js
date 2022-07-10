@@ -15,6 +15,7 @@ import Userscreen from "./screens/Userscreen";
 import Products from "./screens/Products";
 import logo from "./images/lion.png";
 import MyOrders from "./screens/Orders";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <div>
         <img className="Lion" alt="A Lion" src={logo} />
       </div>
+      <Toaster position="top-right" />
       <Router>
         <Basenav />
         <Routes>

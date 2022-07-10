@@ -1,15 +1,36 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
-import { Modal, Button, FormControl, InputGroup } from "react-bootstrap";
+import React, { useState, useEffect, useCallback } from "react";
+import { Modal, Button, FormControl, InputGroup, Form } from "react-bootstrap";
 import "./Cart.css";
 import { IoTrashOutline } from "react-icons/io5";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function Cart(props) {
   const { show, onClose } = props;
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [tax, setTax] = useState(0);
   const [order, setOrder] = useState([]);
+  const navigate = useNavigate();
+  const [shippingAddressOptions, setShippingAddressOptions] = useState([""]);
+  const [usePastShippingAddress, setUsePastShippingAddress] = useState(false);
+
+  const getShippingAddresses = useCallback(async () => {
+    const customerId = JSON.parse(localStorage.getItem("id"));
+    const data = await fetch(
+      `/orders/shipping-address/options?CustomerId=${customerId}`,
+      {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    ).then((res) => res.json());
+    setShippingAddressOptions(data);
+  }, []);
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("cart"));
@@ -17,7 +38,8 @@ function Cart(props) {
       setCart(items);
     }
     getTotal(items);
-  }, [show]);
+    getShippingAddresses();
+  }, [show, getShippingAddresses]);
 
   useEffect(() => {
     const submitOrder = async () => {
@@ -37,9 +59,21 @@ function Cart(props) {
           });
         }
       }
+      toast.success("Order placed!");
+      setOrder([]);
+      setCart([]);
+      setTotal(0);
+      setTax(0);
+      setUsePastShippingAddress(false);
+      clearCart();
+      navigate("orders");
     };
     submitOrder();
-  }, [order]);
+  }, [order, navigate]);
+
+  const clearCart = () => {
+    localStorage.removeItem("cart");
+  };
 
   const removeItem = async (id) => {
     const arr = cart.filter((item) => item.Id !== id);
@@ -50,6 +84,7 @@ function Cart(props) {
     await localStorage.setItem("cart", JSON.stringify(newArr));
     getTotal(newArr);
     console.log(cart);
+    toast.success("Removed");
   };
 
   const updateQty = async (e, data) => {
@@ -66,13 +101,16 @@ function Cart(props) {
 
   const getTotal = (data) => {
     let total = 0;
+    let taxes = 0;
     if (data) {
       for (let index = 0; index < data.length; index++) {
         const productPrice = data[index].Price * data[index].Amount;
         total = total + productPrice;
+        taxes = taxes + total * 0.1;
       }
     }
-    setTotal(total);
+    setTax(taxes);
+    setTotal(total + taxes);
   };
 
   const doMath = (item) => {
@@ -84,7 +122,8 @@ function Cart(props) {
 
   const createOrder = async () => {
     const customerId = JSON.parse(localStorage.getItem("id"));
-    if (!customerId || !shippingAddress) {
+    if (customerId === null) {
+      toast.error("You need to log in first!");
       return;
     }
     let orderArray = [];
@@ -94,7 +133,8 @@ function Cart(props) {
         CustomerId: customerId,
         Amount: cart[i].Amount,
         ShippingAddress: shippingAddress,
-        Price: cart[i].Amount * cart[i].Price,
+        Price:
+          cart[i].Amount * cart[i].Price + cart[i].Amount * cart[i].Price * 0.1,
       });
     }
     setOrder(orderArray);
@@ -118,6 +158,7 @@ function Cart(props) {
               display: "flex",
               flexDirection: "row",
             }}
+            key={item}
           >
             <div style={{ marginRight: "5px" }}>
               <span style={{ fontWeight: "bold" }}>{item.Size} </span>
@@ -127,9 +168,11 @@ function Cart(props) {
             <div style={{ marginLeft: "auto" }}>
               <input
                 type="number"
+                min="1"
                 placeholder={item.Amount}
                 style={{ width: "50px", marginRight: "30px" }}
                 onChange={(event) => updateQty(event.target.value, item)}
+                onKeyDown={(event) => {event.preventDefault();}}
               ></input>
               <span style={{}}>{doMath(item).toFixed(2)}</span>
               <IoTrashOutline
@@ -147,17 +190,72 @@ function Cart(props) {
             width: "100%",
           }}
         >
-          <span style={{}}>Total: {total.toFixed(2)}</span>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span style={{}}>Tax: {tax.toFixed(2)}</span>
+            <span style={{}}>Total: {total.toFixed(2)}</span>
+          </div>
         </div>
-        <div>
-          <InputGroup className="mb-3">
-            <FormControl
-              type="input"
-              name="shippingAddress"
-              placeholder="Shipping Address"
-              onChange={setInputShippingAddress}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              marginTop: "10px",
+            }}
+          >
+            Toggle Shipping Address
+            <Form.Switch
+              onChange={() =>
+                setUsePastShippingAddress(!usePastShippingAddress)
+              }
             />
-          </InputGroup>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+              marginTop: "10px",
+            }}
+          >
+            <InputGroup
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              <FormControl
+                disabled={usePastShippingAddress === false}
+                type="input"
+                name="shippingAddress"
+                placeholder="Shipping Address"
+                onChange={setInputShippingAddress}
+              />
+            </InputGroup>
+            <Form.Select
+              onChange={setInputShippingAddress}
+              disabled={usePastShippingAddress === true}
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              <option>Select Past Shipping Address</option>
+              {shippingAddressOptions &&
+                shippingAddressOptions.map((x) => {
+                  return (
+                    <option value={x.shippingAddress}>
+                      {x.ShippingAddress}
+                    </option>
+                  );
+                })}
+            </Form.Select>
+          </div>
         </div>
       </Modal.Body>
       <Modal.Footer>

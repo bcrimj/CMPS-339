@@ -75,4 +75,10 @@ app.post("/orders/update", async (req, res) => {
   res.send(result.recordset);
 });
 
+app.get("/orders/shipping-address/options", async (req, res) => {
+  let CustomerId = req.query.CustomerId;
+  const result = await dbOperation.getMyShippingAddresses(CustomerId);
+  res.send(result.recordset);
+});
+
 app.listen(API_PORT, () => console.log(`listening on port ${API_PORT}`));

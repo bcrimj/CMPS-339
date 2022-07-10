@@ -105,46 +105,15 @@ export function MyOrders() {
     <div className="App">
       {odata ? (
         <>
-          <div className="Customer">
-            <p></p>
-            <h1>New Order</h1>
-            <InputGroup className="mb-3">
-              <FormControl
-                type="number"
-                name="ProductId"
-                placeholder="Product Id"
-                onChange={setOinput}
-              />
-            </InputGroup>
-            <InputGroup className="mb-3">
-              <FormControl
-                type="number"
-                name="Amount"
-                placeholder="Total Amount"
-                onChange={setOinput}
-              />
-            </InputGroup>
-            <InputGroup className="mb-3">
-              <FormControl
-                type="input"
-                name="ShippingAddress"
-                placeholder="Shipping Address"
-                onChange={setOStringInput}
-              />
-            </InputGroup>
-            <Button variant="success" onClick={() => createOrder()}>
-              Create
-            </Button>
-            <p></p>
-          </div>
           <h1>My Orders</h1>
           <Table striped bordered hover size="small" className="Table">
             <thead>
               <tr>
                 <th>#</th>
-                <th>Customer Id #</th>
-                <th>Product Id #</th>
-                <th>Total Amount</th>
+                <th>Product Name</th>
+                <th>Size</th>
+                <th>Amount</th>
+                <th>Price (Total)</th>
                 <th>Shipping Address</th>
                 <th>Delete</th>
                 <th>Update</th>
@@ -156,9 +125,10 @@ export function MyOrders() {
                   return (
                     <tr key={item.Id}>
                       <td>{item.Id}</td>
-                      <td>{item.CustomerId}</td>
-                      <td>{item.ProductId}</td>
+                      <td>{item.Name}</td>
+                      <td>{item.Size}</td>
                       <td>{item.Amount}</td>
+                      <td>${item.Price}</td>
                       <td>{item.ShippingAddress}</td>
                       <td>
                         <Button
