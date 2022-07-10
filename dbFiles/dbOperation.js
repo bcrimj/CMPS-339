@@ -33,7 +33,9 @@ const getMyOrders = async (CustomerId) => {
     let pool = await sql.connect(config);
     let orders = await pool
       .request()
-      .query(`SELECT * FROM Orders WHERE CustomerId = ${CustomerId}`);
+      .query(
+        `SELECT Orders.Id, Orders.Price, Orders.Amount, Orders.ShippingAddress, Products.Name, Products.Size FROM Orders INNER JOIN Products ON Orders.ProductId=Products.Id WHERE CustomerId = 1`
+      );
     return orders;
   } catch (error) {
     console.log(error);
@@ -121,8 +123,7 @@ const createOrder = async (Order) => {
         `INSERT INTO Orders VALUES ('${Order.ProductId}', '${Order.CustomerId}', '${Order.Amount}', '${Order.ShippingAddress}', '${Order.Price}' )`
       );
     return orders;
-    } 
-  catch (error) {
+  } catch (error) {
     return error;
   }
 };

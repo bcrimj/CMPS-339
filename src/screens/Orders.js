@@ -110,9 +110,10 @@ export function MyOrders() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Customer Id #</th>
-                <th>Product Id #</th>
-                <th>Total Amount</th>
+                <th>Product Name</th>
+                <th>Size</th>
+                <th>Amount</th>
+                <th>Price (Total)</th>
                 <th>Shipping Address</th>
                 <th>Delete</th>
                 <th>Update</th>
@@ -124,9 +125,10 @@ export function MyOrders() {
                   return (
                     <tr key={item.Id}>
                       <td>{item.Id}</td>
-                      <td>{item.CustomerId}</td>
-                      <td>{item.ProductId}</td>
+                      <td>{item.Name}</td>
+                      <td>{item.Size}</td>
                       <td>{item.Amount}</td>
+                      <td>${item.Price}</td>
                       <td>{item.ShippingAddress}</td>
                       <td>
                         <Button
