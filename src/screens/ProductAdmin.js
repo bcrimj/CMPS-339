@@ -56,7 +56,8 @@ function ProductAdmin() {
       }),
     })
       .then(getProduct())
-      .then(setModalShow(false));
+      .then(setModalShow(false))
+      .then(toast.success("Updated"));
   };
 
   const deleteProduct = async (id) => {
