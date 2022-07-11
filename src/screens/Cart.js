@@ -33,13 +33,41 @@ function Cart(props) {
   }, []);
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem("cart"));
-    if (items) {
-      setCart(items);
-    }
-    getTotal(items);
-    getShippingAddresses();
+    const fetchData = async() => {
+        let carray= [];
+        const items = JSON.parse(localStorage.getItem("cart"));
+        if (items) {
+            for (let i=0;i<items.length;i++){
+                const citems = await fetch('/product/id', 
+                {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        Id: items[i].Id
+                    }),
+                }).then((res) => res.json());
+                    carray.push({
+                    Id: citems[0].Id,
+                    Name: citems[0].Name,
+                    Size: citems[0].Size,
+                    Price: citems[0].Price,
+                    Amount: items[i].Amount,
+                })
+            }
+        getTotal(carray);
+        getShippingAddresses();
+        setCart(carray);
+        }
+    };
+    fetchData();
   }, [show, getShippingAddresses]);
+
+  useEffect(() => {
+    console.log(cart)
+  }, [show])
 
   useEffect(() => {
     const submitOrder = async () => {

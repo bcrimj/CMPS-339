@@ -44,6 +44,11 @@ app.get("/product", async (req, res) => {
   res.send(result.recordset);
 });
 
+app.post("/product/id", async (req, res) => {
+  const result = await dbOperation.getProductId(req.body.Id);
+  res.send(result.recordset);
+});
+
 app.post("/product/delete", async (req, res) => {
   const result = await dbOperation.deleteProduct(req.body.Id);
   res.send(result);
@@ -74,6 +79,12 @@ app.post("/orders/update", async (req, res) => {
   const result = await dbOperation.updateOrder(req.body);
   res.send(result.recordset);
 });
+
+app.post("/products/update", async (req, res) => {
+  const result = await dbOperation.updateProduct(req.body);
+  res.send(result.recordset);
+});
+
 
 app.get("/orders/shipping-address/options", async (req, res) => {
   let CustomerId = req.query.CustomerId;

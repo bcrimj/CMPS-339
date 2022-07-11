@@ -23,6 +23,10 @@ function Basenav() {
           <Nav.Link as={Link} to="/user">Login</Nav.Link>
           <Nav.Link as={Link} to="/products">Products</Nav.Link>
           <Nav.Link as={Link} to="/orders">Orders</Nav.Link>
+          
+        </Nav>
+        <Nav>
+        <Nav.Link as={Link} to="/products/admin">Admin</Nav.Link>
         </Nav>
         <h2 className="cart"><IoCartOutline onClick={() => setShow(true)} /></h2>
         <Cart

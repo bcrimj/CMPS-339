@@ -52,6 +52,16 @@ const getProduct = async () => {
   }
 };
 
+const getProductId = async (id) => {
+  try {
+    let pool = await sql.connect(config);
+    let product = pool.request().query(`SELECT * FROM Products WHERE Id = '${id}'`);
+    return product;
+  } catch (error) {
+    return error;
+  }
+}
+
 const getOrder = async () => {
   try {
     let pool = await sql.connect(config);
@@ -156,7 +166,23 @@ const updateOrder = async (Order) => {
   }
 };
 
+const updateProduct = async (Prod) => {
+  try {
+    let pool = await sql.connect(config);
+    let orders = pool
+      .request()
+      .query(
+        `UPDATE Products SET Size = '${Prod.Size}', Name = '${Prod.Name}', Price = '${Prod.Price}' WHERE Id = '${Prod.Id}';`
+      );
+    return orders;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
+  getProductId,
+  updateProduct,
   getCustomer,
   createCustomer,
   getProduct,

@@ -7,6 +7,7 @@ import Coffee from "../images/coffee.jpg";
 import toast from "react-hot-toast";
 import { IoCartOutline } from "react-icons/io5";
 
+
 function Products() {
   const [pdata, setPdata] = useState([""]);
   const [product, setProduct] = useState({ Name: "", Size: "" });
@@ -39,17 +40,6 @@ function Products() {
       },
     }).then((res) => res.json());
     setPdata(newData);
-  };
-
-  const deleteProduct = async (x) => {
-    await fetch("/product/delete", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ Id: `${x}` }),
-    }).then(getProduct());
   };
 
   const handleCart = async (data) => {

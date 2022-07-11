@@ -15,6 +15,7 @@ import Userscreen from "./screens/Userscreen";
 import Products from "./screens/Products";
 import logo from "./images/lion.png";
 import MyOrders from "./screens/Orders";
+import ProductAdmin from "./screens/ProductAdmin";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path="user" element={<Userscreen />} />
           <Route path="products" element={<Products />} />
           <Route path="orders" element={<MyOrders />} />
+          <Route path="products/admin" element={<ProductAdmin />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </Router>
