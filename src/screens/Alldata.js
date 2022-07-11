@@ -13,13 +13,6 @@ export function Alldata() {
     Address: "",
   });
 
-  const [order, setOrder] = useState({
-    ProductId: 0,
-    CustomerId: 0,
-    Amount: 0,
-    ShippingAddress: "",
-  });
-
   const setInput = (e) => {
     const { name, value } = e.target;
     setCustomer((prevState) => ({
@@ -28,13 +21,6 @@ export function Alldata() {
     }));
   };
 
-  const setOinput = (e) => {
-    const { name, value } = e.target;
-    setOrder((prevState) => ({
-      ...prevState,
-      [name]: parseInt(value),
-    }));
-  };
   const getData = async () => {
     const newData = await fetch("/api", {
       method: "GET",
@@ -68,19 +54,6 @@ export function Alldata() {
         ...customer,
       }),
     }).then(getData());
-  };
-
-  const createOrder = async () => {
-    await fetch("/ocreate", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        ...order,
-      }),
-    }).then(getOrders());
   };
 
   const getProduct = async () => {

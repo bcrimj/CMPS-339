@@ -1,37 +1,18 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../screens/Alldata.css";
 import { Button, Card } from "react-bootstrap";
 import Coffee from "../images/coffee.jpg";
 import toast from "react-hot-toast";
 import { IoCartOutline } from "react-icons/io5";
 
-
 function Products() {
   const [pdata, setPdata] = useState([""]);
-  const [product, setProduct] = useState({ Name: "", Size: "" });
   const [cart, setCart] = useState([]);
   const [amount, setAmount] = useState(1);
 
-  useEffect(() => {
-    getProduct();
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
-
-  const setPinput = (e) => {
-    const { name, value } = e.target;
-    setProduct((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const getProduct = async () => {
+  const getProduct = useCallback(async () => {
     const newData = await fetch("/product", {
       method: "GET",
       headers: {
@@ -40,7 +21,7 @@ function Products() {
       },
     }).then((res) => res.json());
     setPdata(newData);
-  };
+  }, []);
 
   const handleCart = async (data) => {
     const customerId = JSON.parse(localStorage.getItem("id"));
@@ -65,7 +46,7 @@ function Products() {
       let array = [];
       array.push(data);
       try {
-        await localStorage.setItem("cart", JSON.stringify(array));
+        localStorage.setItem("cart", JSON.stringify(array));
       } catch (error) {
         toast.error("Something went wrong");
         toast.error(`${error}`);
@@ -80,9 +61,14 @@ function Products() {
     setAmount(qty);
   };
 
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+    getProduct();
+  }, [cart, getProduct]);
+
   return (
     <div className="products-display">
-      {pdata.map &&
+      {pdata &&
         pdata.map((item, idx) => {
           return (
             <>
@@ -109,6 +95,7 @@ function Products() {
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "space-between",
+                        alignItems: "center",
                       }}
                     >
                       <div
@@ -129,32 +116,33 @@ function Products() {
                         </span>
                         <span style={{ fontWeight: "bold" }}>{item.Name}</span>
                       </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "flex-end",
-                          marginTop: "10px",
+                      <span>${item.Price && item.Price.toFixed(2)}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <input
+                        style={{ width: "50px" }}
+                        type="number"
+                        min="1"
+                        placeholder={1}
+                        onChange={setQuantity}
+                        onKeyDown={(event) => {
+                          event.preventDefault();
                         }}
+                      ></input>
+                      <Button
+                        variant="success"
+                        style={{ height: "40px" }}
+                        onClick={() => handleCart(item)}
                       >
-                        <input
-                          style={{ width: "50px" }}
-                          type="number"
-                          min="1"
-                          placeholder={1}
-                          onChange={setQuantity}
-                          onKeyDown={(event) => {
-                            event.preventDefault();
-                          }}
-                        ></input>
-                        <Button
-                          variant="success"
-                          style={{ height: "40px" }}
-                          onClick={() => handleCart(item)}
-                        >
-                          <IoCartOutline />
-                        </Button>
-                      </div>
+                        <IoCartOutline />
+                      </Button>
                     </div>
                   </Card.Title>
                 </Card.Body>

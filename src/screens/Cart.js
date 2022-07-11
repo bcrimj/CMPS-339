@@ -33,41 +33,36 @@ function Cart(props) {
   }, []);
 
   useEffect(() => {
-    const fetchData = async() => {
-        let carray= [];
-        const items = JSON.parse(localStorage.getItem("cart"));
-        if (items) {
-            for (let i=0;i<items.length;i++){
-                const citems = await fetch('/product/id', 
-                {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json",
-                        Accept: "application/json",
-                    },
-                    body: JSON.stringify({
-                        Id: items[i].Id
-                    }),
-                }).then((res) => res.json());
-                    carray.push({
-                    Id: citems[0].Id,
-                    Name: citems[0].Name,
-                    Size: citems[0].Size,
-                    Price: citems[0].Price,
-                    Amount: items[i].Amount,
-                })
-            }
+    const fetchData = async () => {
+      let carray = [];
+      const items = JSON.parse(localStorage.getItem("cart"));
+      if (items) {
+        for (let i = 0; i < items.length; i++) {
+          const citems = await fetch("/product/id", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              Id: items[i].Id,
+            }),
+          }).then((res) => res.json());
+          carray.push({
+            Id: citems[0].Id,
+            Name: citems[0].Name,
+            Size: citems[0].Size,
+            Price: citems[0].Price,
+            Amount: items[i].Amount,
+          });
+        }
         getTotal(carray);
         getShippingAddresses();
         setCart(carray);
-        }
+      }
     };
     fetchData();
   }, [show, getShippingAddresses]);
-
-  useEffect(() => {
-    console.log(cart)
-  }, [show])
 
   useEffect(() => {
     const submitOrder = async () => {
@@ -134,7 +129,7 @@ function Cart(props) {
       for (let index = 0; index < data.length; index++) {
         const productPrice = data[index].Price * data[index].Amount;
         total = total + productPrice;
-        taxes = taxes + total * 0.1;
+        taxes = total * 0.1;
       }
     }
     setTax(taxes);
@@ -200,7 +195,9 @@ function Cart(props) {
                 placeholder={item.Amount}
                 style={{ width: "50px", marginRight: "30px" }}
                 onChange={(event) => updateQty(event.target.value, item)}
-                onKeyDown={(event) => {event.preventDefault();}}
+                onKeyDown={(event) => {
+                  event.preventDefault();
+                }}
               ></input>
               <span style={{}}>{doMath(item).toFixed(2)}</span>
               <IoTrashOutline

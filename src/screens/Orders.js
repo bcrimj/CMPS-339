@@ -42,23 +42,6 @@ export function MyOrders() {
     setOdata(newData);
   }, []);
 
-  const createOrder = async () => {
-    const id = JSON.parse(localStorage.getItem("id"));
-    await fetch("/ocreate", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        CustomerId: `${id}`,
-        ProductId: `${order.ProductId}`,
-        Amount: `${order.Amount}`,
-        ShippingAddress: `${order.ShippingAddress}`,
-      }),
-    }).then(getMyOrders());
-  };
-
   const deleteOrder = async (id) => {
     await fetch("/orders/delete", {
       method: "POST",

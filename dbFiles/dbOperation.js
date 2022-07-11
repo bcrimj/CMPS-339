@@ -55,12 +55,14 @@ const getProduct = async () => {
 const getProductId = async (id) => {
   try {
     let pool = await sql.connect(config);
-    let product = pool.request().query(`SELECT * FROM Products WHERE Id = '${id}'`);
+    let product = pool
+      .request()
+      .query(`SELECT * FROM Products WHERE Id = '${id}'`);
     return product;
   } catch (error) {
     return error;
   }
-}
+};
 
 const getOrder = async () => {
   try {
@@ -91,7 +93,7 @@ const createProduct = async (Product) => {
     let products = pool
       .request()
       .query(
-        `INSERT INTO Products VALUES ('${Product.Name}', '${Product.Size}')`
+        `INSERT INTO Products VALUES ('${Product.Name}', '${Product.Size}', '${Product.Price}')`
       );
     return products;
   } catch (error) {
