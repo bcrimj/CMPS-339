@@ -6,6 +6,7 @@ import "./Cart.css";
 import { IoTrashOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { format } from 'date-fns'
 
 function Cart(props) {
   const { show, onClose } = props;
@@ -54,6 +55,7 @@ function Cart(props) {
             Size: citems[0].Size,
             Price: citems[0].Price,
             Amount: items[i].Amount,
+
           });
         }
         getTotal(carray);
@@ -145,6 +147,8 @@ function Cart(props) {
 
   const createOrder = async () => {
     const customerId = JSON.parse(localStorage.getItem("id"));
+    let date = new Date();
+    date = format(date, 'yyyy-MM-dd kk:mm:ss')
     if (customerId === null) {
       toast.error("You need to log in first!");
       return;
@@ -158,6 +162,7 @@ function Cart(props) {
         ShippingAddress: shippingAddress,
         Price:
           cart[i].Amount * cart[i].Price + cart[i].Amount * cart[i].Price * 0.1,
+        Date: date
       });
     }
     setOrder(orderArray);

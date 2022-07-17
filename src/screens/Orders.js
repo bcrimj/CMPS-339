@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Table, InputGroup, FormControl, Button, Modal } from "react-bootstrap";
 import "../screens/Alldata.css";
+import { format } from 'date-fns';
 
 export function MyOrders() {
   const [odata, setOdata] = useState([""]);
@@ -39,6 +40,7 @@ export function MyOrders() {
         Accept: "application/json",
       },
     }).then((res) => res.json());
+    console.log(newData);
     setOdata(newData);
   }, []);
 
@@ -71,6 +73,12 @@ export function MyOrders() {
       .then(setModalShow(false));
   };
 
+  const formatDate = (date) => {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString([],options);
+  }
+  
+
   const [modalShow, setModalShow] = useState(false);
 
   const [orderId, setOrderId] = useState();
@@ -98,6 +106,7 @@ export function MyOrders() {
                 <th>Amount</th>
                 <th>Price (Total)</th>
                 <th>Shipping Address</th>
+                <th>Date Ordered</th>
                 <th>Delete</th>
                 <th>Update</th>
               </tr>
@@ -113,6 +122,7 @@ export function MyOrders() {
                       <td>{item.Amount}</td>
                       <td>${item.Price}</td>
                       <td>{item.ShippingAddress}</td>
+                      <td>{formatDate(item.Date)}</td>
                       <td>
                         <Button
                           variant="warning"

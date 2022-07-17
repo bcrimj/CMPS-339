@@ -11,6 +11,8 @@ function Products() {
   const [pdata, setPdata] = useState([""]);
   const [cart, setCart] = useState([]);
   const [amount, setAmount] = useState(1);
+  const [test, setTest] = useState([]);
+  const [price, setPrice] = useState();
 
   const getProduct = useCallback(async () => {
     const newData = await fetch("/product", {
@@ -23,18 +25,55 @@ function Products() {
     setPdata(newData);
   }, []);
 
+  useEffect(() => {
+    if (pdata) {
+      let array=[];
+      for (let i=0; i<pdata.length; i++) {
+        if (array.filter(e => e.Name === pdata[i].Name).length > 0){
+          continue;
+        }
+        else {
+          array.push({ Name: pdata[i].Name, Size: pdata[i].Size, Price: pdata[i].Price})
+        }
+      }
+      console.log(array);
+      setTest(array);
+}},[pdata])
+
+  const testHandle = (data) => {
+    let id = 0;
+    for (let i=0; i<pdata.length; i++) {
+      if (data.Name == pdata[i].Name && data.Size == pdata[i].Size && data.Price == pdata[i].Price) {
+        console.log(pdata[i].Id);
+      }
+      else {
+        continue;
+      }
+    }
+
+  }
+
   const handleCart = async (data) => {
     const customerId = JSON.parse(localStorage.getItem("id"));
     if (customerId === null) {
       toast.error("You need to log in first!");
       return;
     }
+    let id = 0;
+    for (let i=0; i<pdata.length; i++) {
+      if (data.Name == pdata[i].Name && data.Size == pdata[i].Size && data.Price == pdata[i].Price) {
+        id = pdata[i].Id;
+      }
+      else {
+        continue;
+      }
+    }
     data.Amount = amount;
     let items = await localStorage.getItem("cart");
     items = JSON.parse(items);
     if (items) {
       let array = items;
-      array.push(data);
+      array.push({Id: id, Amount: data.Amount});
       try {
         await localStorage.setItem("cart", JSON.stringify(array));
       } catch (error) {
@@ -61,15 +100,43 @@ function Products() {
     setAmount(qty);
   };
 
+  const setSizes = (data) => {
+    let sarray = [];
+    for (let i=0; i<pdata.length; i++) {
+      if (pdata[i].Name == data){
+        sarray.push(pdata[i].Size)
+      }
+      else {
+        continue;
+      }
+    }
+    return sarray;
+  }
+
+  const setPrices = (name, size) => {
+    let price = 0;
+    for (let i=0; i<pdata.length; i++) {
+      if (pdata[i].Name == name) {
+        if (pdata[i].Size == size) {
+          price = pdata[i].Price;
+          return price;
+        }
+      }
+    }
+  }
+ 
+  
+
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
     getProduct();
   }, [cart, getProduct]);
-
+  
   return (
     <div className="products-display">
-      {pdata &&
-        pdata.map((item, idx) => {
+      
+      {test &&
+        test.map((item, idx) => {
           return (
             <>
               <Card
@@ -106,17 +173,18 @@ function Products() {
                           alignItems: "center",
                         }}
                       >
-                        <span
+                        {/* <span
                           style={{
                             color: "green",
                             fontWeight: "bold",
                           }}
                         >
-                          {item.Size}
-                        </span>
+                          {item.Size} */}
+                        {/* </span> */}
                         <span style={{ fontWeight: "bold" }}>{item.Name}</span>
+                        <select onChange={(e) => {item.Size = e.target.value; item.Price = setPrices(item.Name, item.Size); setTest([...test])}}>{setSizes(item.Name).map(val => <option val={val}>{val}</option>)}</select>
                       </div>
-                      <span>${item.Price && item.Price.toFixed(2)}</span>
+                      <span>${item.Price}</span>
                     </div>
                     <div
                       style={{
@@ -150,6 +218,7 @@ function Products() {
             </>
           );
         })}
+        
     </div>
   );
 }
