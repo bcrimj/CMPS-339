@@ -4,7 +4,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import "../screens/Alldata.css";
 import { Button, Card } from "react-bootstrap";
 import Coffee from "../images/coffee.jpg";
+import Americano from "../images/americano.jpg";
+import Cappa from "../images/cappa.jpg";
+import Cold from "../images/cold.jpg";
 import toast from "react-hot-toast";
+import Latte from "../images/latte.jpeg";
+import Frappa from "../images/frappa.jpg";
 import { IoCartOutline } from "react-icons/io5";
 
 function Products() {
@@ -113,6 +118,29 @@ function Products() {
     return sarray;
   }
 
+  const setImage = (name) => {
+  let source = '';
+  if (name == 'Americano'){
+    source = Americano
+  }
+  else if (name == 'Cappuccino') {
+    source = Cappa
+  }
+  else if (name == 'Latte') {
+    source = Latte
+  }
+  else if (name == 'Cold Brew'){
+    source = Cold;
+  }
+  else if (name == 'Frappachino') {
+    source = Frappa;
+  }
+  else {
+    source = Coffee
+  }
+  return source;
+  }
+
   const setPrices = (name, size) => {
     let price = 0;
     for (let i=0; i<pdata.length; i++) {
@@ -152,7 +180,7 @@ function Products() {
               >
                 <Card.Img
                   variant="top"
-                  src={Coffee}
+                  src={setImage(item.Name)}
                   style={{ height: "30vh" }}
                 />
                 <Card.Body>

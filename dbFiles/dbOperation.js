@@ -140,6 +140,10 @@ const createOrder = async (Order) => {
   }
 };
 
+const formatDate = (date) => {
+
+}
+
 const getMyShippingAddresses = async (CustomerId) => {
   try {
     let pool = await sql.connect(config);
