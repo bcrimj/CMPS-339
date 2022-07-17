@@ -92,4 +92,14 @@ app.get("/orders/shipping-address/options", async (req, res) => {
   res.send(result.recordset);
 });
 
+app.get("/profit", async (req, res) => {
+  const result = await dbOperation.getProfitTotal();
+  res.send(result.recordset);
+})
+
+app.post("/profit/range", async (req, res) => {
+  const result = await dbOperation.getProfitRange(req.body);
+  res.send (result.recordset);
+})
+
 app.listen(API_PORT, () => console.log(`listening on port ${API_PORT}`));

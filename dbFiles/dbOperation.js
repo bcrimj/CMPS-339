@@ -182,7 +182,38 @@ const updateProduct = async (Prod) => {
   }
 };
 
+const getProfitTotal = async() => {
+  try {
+    let pool = await sql.connect(config);
+    let profit = pool
+      .request()
+      .query(
+        `SELECT SUM(Price) AS Total FROM Orders;`
+      );
+      return profit;
+  } catch (error) {
+    return error;
+  }
+}
+
+const getProfitRange = async(Dates) => {
+  console.log(Dates)
+  try {
+    let pool = await sql.connect(config);
+    let range = pool
+    .request()
+    .query(
+      `SELECT SUM(Price) as Total FROM Orders WHERE Date BETWEEN '${Dates.Start}' AND '${Dates.End}'`
+    );
+    return range;
+  } catch (error) {
+    return error;
+  }
+}
+
 module.exports = {
+  getProfitRange,
+  getProfitTotal,
   getProductId,
   updateProduct,
   getCustomer,

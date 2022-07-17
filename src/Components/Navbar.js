@@ -32,6 +32,7 @@ function Basenav() {
           <Nav.Link as={Link} to="/orders">
             Orders
           </Nav.Link>
+          <Nav.Link as={Link} to="/profit">Profit</Nav.Link>
         </Nav>
         <Nav>
           <Nav.Link as={Link} to="/products/admin">

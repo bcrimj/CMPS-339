@@ -17,6 +17,7 @@ import logo from "./images/lion.png";
 import MyOrders from "./screens/Orders";
 import ProductAdmin from "./screens/ProductAdmin";
 import { Toaster } from "react-hot-toast";
+import ProfitScreen from "./screens/Profit";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="products" element={<Products />} />
           <Route path="orders" element={<MyOrders />} />
           <Route path="products/admin" element={<ProductAdmin />} />
+          <Route path="profit" element={<ProfitScreen />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </Router>
