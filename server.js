@@ -85,21 +85,30 @@ app.post("/products/update", async (req, res) => {
   res.send(result.recordset);
 });
 
-
 app.get("/orders/shipping-address/options", async (req, res) => {
   let CustomerId = req.query.CustomerId;
   const result = await dbOperation.getMyShippingAddresses(CustomerId);
   res.send(result.recordset);
 });
 
+app.get("/products/options", async (req, res) => {
+  const result = await dbOperation.getProductOptions();
+  res.send(result.recordset);
+});
+
 app.get("/profit", async (req, res) => {
   const result = await dbOperation.getProfitTotal();
   res.send(result.recordset);
-})
+});
 
 app.post("/profit/range", async (req, res) => {
   const result = await dbOperation.getProfitRange(req.body);
-  res.send (result.recordset);
-})
+  res.send(result.recordset);
+});
+
+app.post("/product/profit/range", async (req, res) => {
+  const result = await dbOperation.getProfitRangeForProduct(req.body);
+  res.send(result.recordset);
+});
 
 app.listen(API_PORT, () => console.log(`listening on port ${API_PORT}`));

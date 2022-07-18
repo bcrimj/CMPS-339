@@ -67,7 +67,11 @@ const getProductId = async (id) => {
 const getOrder = async () => {
   try {
     let pool = await sql.connect(config);
-    let orders = pool.request().query("SELECT * from Orders");
+    let orders = pool
+      .request()
+      .query(
+        "SELECT Orders.Id, Orders.Price, Orders.Amount, Orders.ShippingAddress, Customers.FirstName, Customers.LastName, Products.Name, Products.Size, Orders.Date FROM Orders INNER JOIN Products ON Orders.ProductId=Products.Id INNER JOIN Customers ON Orders.CustomerId=Customers.Id"
+      );
     return orders;
   } catch (error) {
     return error;
@@ -156,6 +160,18 @@ const getMyShippingAddresses = async (CustomerId) => {
   }
 };
 
+const getProductOptions = async () => {
+  try {
+    let pool = await sql.connect(config);
+    let productOptions = pool
+      .request()
+      .query(`SELECT Name, Size, Id FROM Products`);
+    return productOptions;
+  } catch (error) {
+    return error;
+  }
+};
+
 const updateOrder = async (Order) => {
   try {
     let pool = await sql.connect(config);
@@ -211,6 +227,21 @@ const getProfitRange = async (Dates) => {
   }
 };
 
+const getProfitRangeForProduct = async (Body) => {
+  console.log(Body);
+  try {
+    let pool = await sql.connect(config);
+    let range = pool
+      .request()
+      .query(
+        `SELECT SUM(Price) as Total FROM Orders WHERE ProductId=${Body.ProductId} AND Date BETWEEN '${Body.Start}' AND '${Body.End}'`
+      );
+    return range;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   getProfitRange,
   getProfitTotal,
@@ -228,4 +259,6 @@ module.exports = {
   deleteOrder,
   updateOrder,
   getMyShippingAddresses,
+  getProfitRangeForProduct,
+  getProductOptions,
 };

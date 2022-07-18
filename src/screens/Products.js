@@ -32,31 +32,37 @@ function Products() {
 
   useEffect(() => {
     if (pdata) {
-      let array=[];
-      for (let i=0; i<pdata.length; i++) {
-        if (array.filter(e => e.Name === pdata[i].Name).length > 0){
+      let array = [];
+      for (let i = 0; i < pdata.length; i++) {
+        if (array.filter((e) => e.Name === pdata[i].Name).length > 0) {
           continue;
-        }
-        else {
-          array.push({ Name: pdata[i].Name, Size: pdata[i].Size, Price: pdata[i].Price})
+        } else {
+          array.push({
+            Name: pdata[i].Name,
+            Size: pdata[i].Size,
+            Price: pdata[i].Price,
+          });
         }
       }
       console.log(array);
       setTest(array);
-}},[pdata])
+    }
+  }, [pdata]);
 
   const testHandle = (data) => {
     let id = 0;
-    for (let i=0; i<pdata.length; i++) {
-      if (data.Name == pdata[i].Name && data.Size == pdata[i].Size && data.Price == pdata[i].Price) {
+    for (let i = 0; i < pdata.length; i++) {
+      if (
+        data.Name == pdata[i].Name &&
+        data.Size == pdata[i].Size &&
+        data.Price == pdata[i].Price
+      ) {
         console.log(pdata[i].Id);
-      }
-      else {
+      } else {
         continue;
       }
     }
-
-  }
+  };
 
   const handleCart = async (data) => {
     const customerId = JSON.parse(localStorage.getItem("id"));
@@ -65,11 +71,14 @@ function Products() {
       return;
     }
     let id = 0;
-    for (let i=0; i<pdata.length; i++) {
-      if (data.Name == pdata[i].Name && data.Size == pdata[i].Size && data.Price == pdata[i].Price) {
+    for (let i = 0; i < pdata.length; i++) {
+      if (
+        data.Name == pdata[i].Name &&
+        data.Size == pdata[i].Size &&
+        data.Price == pdata[i].Price
+      ) {
         id = pdata[i].Id;
-      }
-      else {
+      } else {
         continue;
       }
     }
@@ -78,7 +87,7 @@ function Products() {
     items = JSON.parse(items);
     if (items) {
       let array = items;
-      array.push({Id: id, Amount: data.Amount});
+      array.push({ Id: id, Amount: data.Amount });
       try {
         await localStorage.setItem("cart", JSON.stringify(array));
       } catch (error) {
@@ -107,43 +116,37 @@ function Products() {
 
   const setSizes = (data) => {
     let sarray = [];
-    for (let i=0; i<pdata.length; i++) {
-      if (pdata[i].Name == data){
-        sarray.push(pdata[i].Size)
-      }
-      else {
+    for (let i = 0; i < pdata.length; i++) {
+      if (pdata[i].Name == data) {
+        sarray.push(pdata[i].Size);
+      } else {
         continue;
       }
     }
     return sarray;
-  }
+  };
 
   const setImage = (name) => {
-  let source = '';
-  if (name == 'Americano'){
-    source = Americano
-  }
-  else if (name == 'Cappuccino') {
-    source = Cappa
-  }
-  else if (name == 'Latte') {
-    source = Latte
-  }
-  else if (name == 'Cold Brew'){
-    source = Cold;
-  }
-  else if (name == 'Frappachino') {
-    source = Frappa;
-  }
-  else {
-    source = Coffee
-  }
-  return source;
-  }
+    let source = "";
+    if (name == "Americano") {
+      source = Americano;
+    } else if (name == "Cappuccino") {
+      source = Cappa;
+    } else if (name == "Latte") {
+      source = Latte;
+    } else if (name == "Cold Brew") {
+      source = Cold;
+    } else if (name == "Frappachino") {
+      source = Frappa;
+    } else {
+      source = Coffee;
+    }
+    return source;
+  };
 
   const setPrices = (name, size) => {
     let price = 0;
-    for (let i=0; i<pdata.length; i++) {
+    for (let i = 0; i < pdata.length; i++) {
       if (pdata[i].Name == name) {
         if (pdata[i].Size == size) {
           price = pdata[i].Price;
@@ -151,18 +154,15 @@ function Products() {
         }
       }
     }
-  }
- 
-  
+  };
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
     getProduct();
   }, [cart, getProduct]);
-  
+
   return (
     <div className="products-display">
-      
       {test &&
         test.map((item, idx) => {
           return (
@@ -210,7 +210,17 @@ function Products() {
                           {item.Size} */}
                         {/* </span> */}
                         <span style={{ fontWeight: "bold" }}>{item.Name}</span>
-                        <select onChange={(e) => {item.Size = e.target.value; item.Price = setPrices(item.Name, item.Size); setTest([...test])}}>{setSizes(item.Name).map(val => <option val={val}>{val}</option>)}</select>
+                        <select
+                          onChange={(e) => {
+                            item.Size = e.target.value;
+                            item.Price = setPrices(item.Name, item.Size);
+                            setTest([...test]);
+                          }}
+                        >
+                          {setSizes(item.Name).map((val) => (
+                            <option val={val}>{val}</option>
+                          ))}
+                        </select>
                       </div>
                       <span>${item.Price}</span>
                     </div>
@@ -246,7 +256,6 @@ function Products() {
             </>
           );
         })}
-        
     </div>
   );
 }

@@ -167,9 +167,10 @@ export function Alldata() {
         <thead>
           <tr>
             <th>#</th>
-            <th>Customer Id #</th>
-            <th>Product Id #</th>
-            <th>Total Amount</th>
+            <th>Customer Name</th>
+            <th>Product</th>
+            <th>Product Size</th>
+            <th>Amount</th>
             <th>Shipping Address</th>
             <th>Price</th>
           </tr>
@@ -180,8 +181,11 @@ export function Alldata() {
               return (
                 <tr key={item.Id}>
                   <td>{item.Id}</td>
-                  <td>{item.CustomerId}</td>
-                  <td>{item.ProductId}</td>
+                  <td>
+                    {item.FirstName} {item.LastName}
+                  </td>
+                  <td>{item.Name}</td>
+                  <td>{item.Size}</td>
                   <td>{item.Amount}</td>
                   <td>{item.ShippingAddress}</td>
                   <td>{item.Price}</td>
