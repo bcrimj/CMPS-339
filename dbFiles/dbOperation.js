@@ -34,7 +34,7 @@ const getMyOrders = async (CustomerId) => {
     let orders = await pool
       .request()
       .query(
-        `SELECT Orders.Id, Orders.Price, Orders.Amount, Orders.ShippingAddress, Products.Name, Products.Size, Orders.Date FROM Orders INNER JOIN Products ON Orders.ProductId=Products.Id WHERE CustomerId = 1`
+        `SELECT Orders.Id, Orders.Price, Orders.Amount, Orders.ShippingAddress, Products.Name, Products.Size, Orders.Date FROM Orders INNER JOIN Products ON Orders.ProductId=Products.Id WHERE CustomerId = ${CustomerId}`
       );
     return orders;
   } catch (error) {
@@ -140,9 +140,7 @@ const createOrder = async (Order) => {
   }
 };
 
-const formatDate = (date) => {
-
-}
+const formatDate = (date) => {};
 
 const getMyShippingAddresses = async (CustomerId) => {
   try {
@@ -186,34 +184,32 @@ const updateProduct = async (Prod) => {
   }
 };
 
-const getProfitTotal = async() => {
+const getProfitTotal = async () => {
   try {
     let pool = await sql.connect(config);
     let profit = pool
       .request()
-      .query(
-        `SELECT SUM(Price) AS Total FROM Orders;`
-      );
-      return profit;
+      .query(`SELECT SUM(Price) AS Total FROM Orders;`);
+    return profit;
   } catch (error) {
     return error;
   }
-}
+};
 
-const getProfitRange = async(Dates) => {
-  console.log(Dates)
+const getProfitRange = async (Dates) => {
+  console.log(Dates);
   try {
     let pool = await sql.connect(config);
     let range = pool
-    .request()
-    .query(
-      `SELECT SUM(Price) as Total FROM Orders WHERE Date BETWEEN '${Dates.Start}' AND '${Dates.End}'`
-    );
+      .request()
+      .query(
+        `SELECT SUM(Price) as Total FROM Orders WHERE Date BETWEEN '${Dates.Start}' AND '${Dates.End}'`
+      );
     return range;
   } catch (error) {
     return error;
   }
-}
+};
 
 module.exports = {
   getProfitRange,

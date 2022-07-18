@@ -1,12 +1,12 @@
 /** @format */
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Modal, Button, FormControl, InputGroup, Form } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import "./Cart.css";
 import { IoTrashOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { format } from 'date-fns'
+import { format } from "date-fns";
 
 function Cart(props) {
   const { show, onClose } = props;
@@ -16,7 +16,6 @@ function Cart(props) {
   const [order, setOrder] = useState([]);
   const navigate = useNavigate();
   const [shippingAddressOptions, setShippingAddressOptions] = useState([""]);
-  const [usePastShippingAddress, setUsePastShippingAddress] = useState(false);
 
   const getShippingAddresses = useCallback(async () => {
     const customerId = JSON.parse(localStorage.getItem("id"));
@@ -55,7 +54,6 @@ function Cart(props) {
             Size: citems[0].Size,
             Price: citems[0].Price,
             Amount: items[i].Amount,
-
           });
         }
         getTotal(carray);
@@ -89,7 +87,6 @@ function Cart(props) {
       setCart([]);
       setTotal(0);
       setTax(0);
-      setUsePastShippingAddress(false);
       clearCart();
       navigate("orders");
     };
@@ -148,7 +145,7 @@ function Cart(props) {
   const createOrder = async () => {
     const customerId = JSON.parse(localStorage.getItem("id"));
     let date = new Date();
-    date = format(date, 'yyyy-MM-dd kk:mm:ss')
+    date = format(date, "yyyy-MM-dd kk:mm:ss");
     if (customerId === null) {
       toast.error("You need to log in first!");
       return;
@@ -162,7 +159,7 @@ function Cart(props) {
         ShippingAddress: shippingAddress,
         Price:
           cart[i].Amount * cart[i].Price + cart[i].Amount * cart[i].Price * 0.1,
-        Date: date
+        Date: date,
       });
     }
     setOrder(orderArray);
@@ -232,60 +229,20 @@ function Cart(props) {
             justifyContent: "space-around",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              marginTop: "10px",
-            }}
-          >
-            Toggle Shipping Address
-            <Form.Switch
-              onChange={() =>
-                setUsePastShippingAddress(!usePastShippingAddress)
-              }
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              marginTop: "10px",
-            }}
-          >
-            <InputGroup
-              style={{
-                marginTop: "10px",
-              }}
-            >
-              <FormControl
-                disabled={usePastShippingAddress === false}
-                type="input"
-                name="shippingAddress"
-                placeholder="Shipping Address"
-                onChange={setInputShippingAddress}
-              />
-            </InputGroup>
-            <Form.Select
-              onChange={setInputShippingAddress}
-              disabled={usePastShippingAddress === true}
-              style={{
-                marginTop: "10px",
-              }}
-            >
-              <option>Select Past Shipping Address</option>
-              {shippingAddressOptions &&
-                shippingAddressOptions.map((x) => {
-                  return (
-                    <option value={x.shippingAddress}>
-                      {x.ShippingAddress}
-                    </option>
-                  );
-                })}
-            </Form.Select>
-          </div>
+          <label htmlFor="shippingAddress">Shipping Address:</label>
+          <input
+            type="text"
+            list="shippingAddress"
+            onChange={setInputShippingAddress}
+          />
+          <datalist id="shippingAddress">
+            {shippingAddressOptions &&
+              shippingAddressOptions.map((x) => {
+                return (
+                  <option value={x.shippingAddress}>{x.ShippingAddress}</option>
+                );
+              })}
+          </datalist>
         </div>
       </Modal.Body>
       <Modal.Footer>

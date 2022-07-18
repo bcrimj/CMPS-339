@@ -3,7 +3,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Table, InputGroup, FormControl, Button, Modal } from "react-bootstrap";
 import "../screens/Alldata.css";
-import { format } from 'date-fns';
 
 export function MyOrders() {
   const [odata, setOdata] = useState([""]);
@@ -74,10 +73,9 @@ export function MyOrders() {
   };
 
   const formatDate = (date) => {
-    var options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(date).toLocaleDateString([],options);
-  }
-  
+    var options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(date).toLocaleDateString([], options);
+  };
 
   const [modalShow, setModalShow] = useState(false);
 
